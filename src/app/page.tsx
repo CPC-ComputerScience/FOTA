@@ -7,6 +7,9 @@ export default function Home() {
       <Link href="/test">
         <button>Test page</button>
       </Link>
+      <Link href="/onboarding">
+        <button>Onboarding Page</button>
+      </Link>
     </div>
   );
 }
