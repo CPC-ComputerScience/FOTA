@@ -7,12 +7,9 @@ export default function Home() {
       <Link href="/test">
         <button>Test page</button>
       </Link>
-<<<<<<< HEAD
       <Link href="/onboarding">
         <button>Onboarding Page</button>
       </Link>
-=======
->>>>>>> 0925389f9c9ed72b1548c5688ffbec80bebf3f7b
     </div>
   );
 }
