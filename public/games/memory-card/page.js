@@ -1,8 +1,5 @@
-// src/app/games/game1/page.js
 import Link from 'next/link';
 import Image from 'next/image';
-
-
 
 export default function Game1Page() {
   return (
