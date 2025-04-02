@@ -40,7 +40,7 @@ export default function OnboardingPage() {
         {games.map((game) => (
           <Link
             key={game.id}
-            href={game.path}
+            href="/games/memory-card"
             className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
           >
             {/* 游戏图片 */}
