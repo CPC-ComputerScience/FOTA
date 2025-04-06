@@ -28,21 +28,28 @@ const MemoryCardGame = () => {
   
 
   const handleCardClick = (card) => {
-    if (selectedCards.length === 2 || matchedCards.includes(card.id) || selectedCards.includes(card)) return;
-
+    if (
+      selectedCards.length === 2 ||
+      matchedCards.includes(card.id) ||
+      selectedCards.includes(card)
+    )
+      return;
+  
     const newSelection = [...selectedCards, card];
     setSelectedCards(newSelection);
-
+  
     if (newSelection.length === 2) {
-      if (newSelection[0].icon === newSelection[1].icon) {
+      if (newSelection[0].src === newSelection[1].src) {
         setMatchedCards([...matchedCards, newSelection[0].id, newSelection[1].id]);
-      }
-
-      setTimeout(() => {
         setSelectedCards([]);
-      }, 800);
+      } else {
+        setTimeout(() => {
+          setSelectedCards([]);
+        }, 800);
+      }
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-200 to-blue-300 flex flex-col items-center justify-center p-4">
