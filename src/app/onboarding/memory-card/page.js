@@ -34,18 +34,23 @@ const MemoryCardGame = () => {
   };
 
   return (
-    <div className="grid grid-cols-4 gap-4 p-4">
-      {cards.map((card) => (
-        <button
-          key={card.id}
-          className={`border rounded-lg w-20 h-20 text-3xl ${
-            matchedCards.includes(card.id) || selectedCards.includes(card) ? 'bg-green-200' : 'bg-gray-200'
-          }`}
-          onClick={() => handleCardClick(card)}
-        >
-          {matchedCards.includes(card.id) || selectedCards.includes(card) ? card.icon : '?' }
-        </button>
-      ))}
+    <div className="min-h-screen bg-gradient-to-br from-purple-200 to-blue-300 flex flex-col items-center justify-center p-4">
+      <h1 className="text-3xl font-bold mb-8 text-gray-800">Memory Card Game</h1>
+      <div className="grid grid-cols-4 gap-4">
+        {cards.map((card) => (
+          <button
+            key={card.id}
+            className={`flex items-center justify-center border-4 border-white rounded-lg w-24 h-24 text-4xl shadow-md transform transition duration-200 ease-in-out hover:scale-105 ${
+              matchedCards.includes(card.id) || selectedCards.includes(card)
+                ? 'bg-green-300'
+                : 'bg-white'
+            }`}
+            onClick={() => handleCardClick(card)}
+          >
+            {matchedCards.includes(card.id) || selectedCards.includes(card) ? card.icon : '❓'}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
