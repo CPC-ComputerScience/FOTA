@@ -10,6 +10,9 @@ export default function Home() {
       <Link href="/onboarding">
         <button>Onboarding Page</button>
       </Link>
+      <Link href="/memory-card">
+        <button>Game 1</button>
+      </Link>
     </div>
   );
 }
