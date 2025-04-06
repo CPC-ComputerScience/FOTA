@@ -8,7 +8,16 @@ const MemoryCardGame = () => {
   const [matchedCards, setMatchedCards] = useState([]);
 
   useEffect(() => {
-    const cardImages = ["🐶", "🐱", "🦊", "🐻", "🐼", "🐨", "🐸", "🐵"];
+    const cardImages = [
+      '/images/BeiLiYa.jpg',
+      '/images/DengChao.jpg',
+      '/images/HaJiMi.jpg',
+      '/images/MengLei.jpg',
+      '/images/TianYiMing.jpg',
+      '/images/Xiong2.jpg',
+      '/images/XiongDa.jpg',
+      '/images/YuJie.jpg'
+    ];
     const shuffledCards = [...cardImages, ...cardImages]
       .sort(() => Math.random() - 0.5)
       .map((icon, index) => ({ id: index, icon, flipped: false }));
@@ -39,16 +48,21 @@ const MemoryCardGame = () => {
       <div className="grid grid-cols-4 gap-4">
         {cards.map((card) => (
           <button
-            key={card.id}
-            className={`flex items-center justify-center border-4 border-white rounded-lg w-24 h-24 text-4xl shadow-md transform transition duration-200 ease-in-out hover:scale-105 ${
-              matchedCards.includes(card.id) || selectedCards.includes(card)
-                ? 'bg-green-300'
-                : 'bg-white'
-            }`}
-            onClick={() => handleCardClick(card)}
-          >
-            {matchedCards.includes(card.id) || selectedCards.includes(card) ? card.icon : '❓'}
-          </button>
+          key={card.id}
+          className={`flex items-center justify-center border-4 border-white rounded-lg w-24 h-24 shadow-md transform transition duration-200 ease-in-out hover:scale-105 ${
+            matchedCards.includes(card.id) || selectedCards.includes(card)
+              ? 'bg-green-300'
+              : 'bg-white'
+          }`}
+          onClick={() => handleCardClick(card)}
+        >
+          {matchedCards.includes(card.id) || selectedCards.includes(card) ? (
+            <img src={card.src} alt="card" className="w-12 h-12" />
+          ) : (
+            '❓'
+          )}
+        </button>
+        
         ))}
       </div>
     </div>
