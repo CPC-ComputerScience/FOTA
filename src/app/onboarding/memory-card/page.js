@@ -5,12 +5,21 @@ import { useRouter } from 'next/navigation';
 
 const MemoryCardGame = () => {
   const router = useRouter();
+
+  // State to store all cards
   const [cards, setCards] = useState([]);
+
+  // State to track selected (clicked) cards
   const [selectedCards, setSelectedCards] = useState([]);
+
+  // State to track cards that have been matched
   const [matchedCards, setMatchedCards] = useState([]);
+
+  // State to track game start and end times
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
 
+  // Function to initialize or restart the game
   const initializeGame = () => {
     const cardImages = [
       '/images/BeiLiYa.jpg',
@@ -23,10 +32,12 @@ const MemoryCardGame = () => {
       '/images/YuJie.jpg',
     ];
 
+    // Duplicate and shuffle the cards
     const shuffledCards = [...cardImages, ...cardImages]
       .sort(() => Math.random() - 0.5)
       .map((src, index) => ({ id: index, src }));
 
+    // Reset all game states
     setCards(shuffledCards);
     setSelectedCards([]);
     setMatchedCards([]);
@@ -34,17 +45,21 @@ const MemoryCardGame = () => {
     setEndTime(null);
   };
 
+  // Initialize the game when the page first loads
   useEffect(() => {
     initializeGame();
   }, []);
 
+  // Set end time when all cards are matched
   useEffect(() => {
     if (matchedCards.length === cards.length && cards.length > 0 && !endTime) {
       setEndTime(Date.now());
     }
   }, [matchedCards, cards, endTime]);
 
+  // Handle card click logic
   const handleCardClick = (card) => {
+    // Prevent clicking if already selected or matched or if 2 cards are selected
     if (
       selectedCards.length === 2 ||
       matchedCards.includes(card.id) ||
@@ -56,10 +71,12 @@ const MemoryCardGame = () => {
     setSelectedCards(newSelection);
 
     if (newSelection.length === 2) {
+      // Check if two selected cards match
       if (newSelection[0].src === newSelection[1].src) {
         setMatchedCards([...matchedCards, newSelection[0].id, newSelection[1].id]);
         setSelectedCards([]);
       } else {
+        // If not matched, flip them back after a short delay
         setTimeout(() => {
           setSelectedCards([]);
         }, 800);
@@ -67,13 +84,17 @@ const MemoryCardGame = () => {
     }
   };
 
+  // Check if the player has won
   const hasWon = matchedCards.length === cards.length && cards.length > 0;
+
+  // Calculate elapsed time once the game is finished
   const elapsedTime = endTime && startTime ? ((endTime - startTime) / 1000).toFixed(2) : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-200 to-blue-300 flex flex-col items-center justify-center p-4">
       <h1 className="text-3xl font-bold mb-4 text-gray-800">Memory Card Game</h1>
 
+      {/* Show winning message and time taken */}
       {hasWon && (
         <div className="text-center mb-4">
           <h2 className="text-2xl text-green-700 font-semibold">🎉 Congratulations! You Won! 🎉</h2>
@@ -81,8 +102,8 @@ const MemoryCardGame = () => {
         </div>
       )}
 
+      {/* Game board grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-
         {cards.map((card) => (
           <button
             key={card.id}
@@ -93,6 +114,7 @@ const MemoryCardGame = () => {
             }`}
             onClick={() => handleCardClick(card)}
           >
+            {/* Show image if matched or selected, otherwise show question mark */}
             {matchedCards.includes(card.id) || selectedCards.includes(card) ? (
               <img src={card.src} alt="card" className="w-24 h-24 object-cover object-top rounded" />
             ) : (
@@ -102,6 +124,7 @@ const MemoryCardGame = () => {
         ))}
       </div>
 
+      {/* Control buttons */}
       <div className="flex space-x-4 mt-8">
         <button
           onClick={initializeGame}
