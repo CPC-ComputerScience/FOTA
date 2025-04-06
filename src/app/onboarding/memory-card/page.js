@@ -10,7 +10,7 @@ const MemoryCardGame = () => {
   useEffect(() => {
     const cardImages = [
       '/images/BeiLiYa.jpg',
-      '/images/DengChao.jpg',
+      '/images/DengChao.jpeg',
       '/images/HaJiMi.jpg',
       '/images/MengLei.jpg',
       '/images/TianYiMing.jpg',
@@ -18,12 +18,14 @@ const MemoryCardGame = () => {
       '/images/XiongDa.jpg',
       '/images/YuJie.jpg'
     ];
+  
     const shuffledCards = [...cardImages, ...cardImages]
       .sort(() => Math.random() - 0.5)
-      .map((icon, index) => ({ id: index, icon, flipped: false }));
-
+      .map((src, index) => ({ id: index, src })); // Ensure `src` property exists
+  
     setCards(shuffledCards);
   }, []);
+  
 
   const handleCardClick = (card) => {
     if (selectedCards.length === 2 || matchedCards.includes(card.id) || selectedCards.includes(card)) return;
