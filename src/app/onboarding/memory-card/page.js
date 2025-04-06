@@ -8,6 +8,8 @@ const MemoryCardGame = () => {
   const [cards, setCards] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
 
   const initializeGame = () => {
     const cardImages = [
@@ -28,11 +30,19 @@ const MemoryCardGame = () => {
     setCards(shuffledCards);
     setSelectedCards([]);
     setMatchedCards([]);
+    setStartTime(Date.now());
+    setEndTime(null);
   };
 
   useEffect(() => {
     initializeGame();
   }, []);
+
+  useEffect(() => {
+    if (matchedCards.length === cards.length && cards.length > 0 && !endTime) {
+      setEndTime(Date.now());
+    }
+  }, [matchedCards, cards, endTime]);
 
   const handleCardClick = (card) => {
     if (
@@ -58,18 +68,25 @@ const MemoryCardGame = () => {
   };
 
   const hasWon = matchedCards.length === cards.length && cards.length > 0;
+  const elapsedTime = endTime && startTime ? ((endTime - startTime) / 1000).toFixed(2) : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-200 to-blue-300 flex flex-col items-center justify-center p-4">
       <h1 className="text-3xl font-bold mb-4 text-gray-800">Memory Card Game</h1>
 
-      {hasWon && <h2 className="text-2xl text-green-700 font-semibold mb-4">🎉 Congratulations! You Won! 🎉</h2>}
+      {hasWon && (
+        <div className="text-center mb-4">
+          <h2 className="text-2xl text-green-700 font-semibold">🎉 Congratulations! You Won! 🎉</h2>
+          {elapsedTime && <p className="text-lg mt-2">Time Taken: {elapsedTime} seconds</p>}
+        </div>
+      )}
 
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+
         {cards.map((card) => (
           <button
             key={card.id}
-            className={`flex items-center justify-center border-4 border-white rounded-lg w-24 h-24 shadow-md transform transition duration-200 ease-in-out hover:scale-105 ${
+            className={`flex items-center justify-center border-4 border-white rounded-lg w-20 h-24 shadow-md transform transition duration-200 ease-in-out hover:scale-105 ${
               matchedCards.includes(card.id) || selectedCards.includes(card)
                 ? 'bg-green-300'
                 : 'bg-white'
@@ -77,7 +94,7 @@ const MemoryCardGame = () => {
             onClick={() => handleCardClick(card)}
           >
             {matchedCards.includes(card.id) || selectedCards.includes(card) ? (
-              <img src={card.src} alt="card" className="w-12 h-12 object-cover rounded" />
+              <img src={card.src} alt="card" className="w-24 h-24 object-cover object-top rounded" />
             ) : (
               '❓'
             )}
