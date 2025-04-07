@@ -14,7 +14,7 @@ const games = [
   {
     id: 2,
     title: "GAME1: Memory Card",
-    path: "/onboarding/memory-card",
+    path: "/app/game-2",
     image: "/games/klotski.jpg",
     description: "---",
   },
