@@ -1,12 +1,12 @@
 import Link from 'next/link'
 
-// test comment to see changes??
+// test comment to see changes??  
 
 export default function Home() {
   return (
     <div>
       <h1>Home Page</h1>
-      <Link href="/test">
+      <Link href="/test/example">
         <button>Test page </button>
       </Link>
       <Link href="/onboarding">
