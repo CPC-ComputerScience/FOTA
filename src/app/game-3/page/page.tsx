@@ -38,44 +38,47 @@ const MemoryTest = ({ pin }: { pin: string }) => {
     }
   }, [level]);
 
+  // Generates a new sequence of colors for the game
   const generateNewSequence = (reset = false) => {
-    const newColor = colors[Math.floor(Math.random() * colors.length)];
-    setSequence((prev) => (reset ? [newColor] : [...prev, newColor]));
-    setPlayerInput([]);
-    flashSequence(reset ? [newColor] : [...sequence, newColor]);
+    const newColor = colors[Math.floor(Math.random() * colors.length)]; // Randomly pick a color
+    setSequence((prev) => (reset ? [newColor] : [...prev, newColor])); // Reset or append to the sequence
+    setPlayerInput([]); // Clear player's input
+    flashSequence(reset ? [newColor] : [...sequence, newColor]); // Flash the new sequence
   };
 
+  // Flashes the sequence of colors to the player
   const flashSequence = async (seq: string[]) => {
-    setIsFlashing(true);
-    await new Promise((resolve) => setTimeout(resolve, 700));
+    setIsFlashing(true); // Disable player input during flashing
+    await new Promise((resolve) => setTimeout(resolve, 700)); // Initial delay
 
     for (let i = 0; i < seq.length; i++) {
-      setFlashing(seq[i]);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      setFlashing(null);
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      setFlashing(seq[i]); // Highlight the current color
+      await new Promise((resolve) => setTimeout(resolve, 500)); // Flash duration
+      setFlashing(null); // Remove highlight
+      await new Promise((resolve) => setTimeout(resolve, 300)); // Pause between flashes
     }
 
-    setIsFlashing(false);
+    setIsFlashing(false); // Enable player input after flashing
   };
 
+  // Handles player's color button clicks
   const handleColorClick = (color: string) => {
-    if (isFlashing) return;
+    if (isFlashing) return; // Ignore clicks during flashing
 
-    setPlayerInput((prev) => [...prev, color]);
+    setPlayerInput((prev) => [...prev, color]); // Add clicked color to player's input
 
-    if (sequence[playerInput.length] !== color) {
+    if (sequence[playerInput.length] !== color) { // Check if input is incorrect
       alert('Incorrect! Try again from level 1.');
-      setLevel(1);
+      setLevel(1); // Reset level
       setGameStarted(false); // Reset the game
-    } else if (playerInput.length + 1 === sequence.length) {
-      if (level === 5) {
-        setShowModal(true);
-        setGameWon(true);
-        localStorage.setItem("hasBeatenGame", "true"); // Save to cache
+    } else if (playerInput.length + 1 === sequence.length) { // Check if sequence is complete
+      if (level === 5) { // Check if player has won
+        setShowModal(true); // Show winning modal
+        setGameWon(true); // Mark game as won
+        localStorage.setItem("hasBeatenGame", "true"); // Save progress to localStorage
         setHasBeatenGame(true); // Update state
       } else {
-        setLevel((prev) => prev + 1);
+        setLevel((prev) => prev + 1); // Advance to the next level
       }
     }
   };
