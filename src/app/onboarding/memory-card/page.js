@@ -22,14 +22,14 @@ const MemoryCardGame = () => {
   // Function to initialize or restart the game
   const initializeGame = () => {
     const cardImages = [
-      '/images/BeiLiYa.jpg',
-      '/images/DengChao.jpeg',
-      '/images/HaJiMi.jpg',
-      '/images/MengLei.jpg',
-      '/images/TianYiMing.jpg',
-      '/images/Xiong2.jpg',
-      '/images/XiongDa.jpg',
-      '/images/YuJie.jpg',
+      '/images/1.jpg',
+      '/images/2.jpeg',
+      '/images/3.jpg',
+      '/images/4.jpg',
+      '/images/5.jpg',
+      '/images/6.jpg',
+      '/images/7.jpg',
+      '/images/8.jpg',
     ];
 
     // Duplicate and shuffle the cards

@@ -6,15 +6,15 @@ import Image from 'next/image';
 const games = [
   {
     id: 1,
-    title: "GAME1: Memory Card",
-    path: "/onboarding/memory-card",
+    title: "GAME1",
+    path: "",
     image: "/games/memory-card.jpg", // 确保图片在 public/games 目录下
     description: "10101001000101101001110101001000011100111110001001000101",
   },
   {
     id: 2,
-    title: "GAME2",
-    path: "/games/klotski",
+    title: "GAME1: Memory Card",
+    path: "/onboarding/memory-card",
     image: "/games/klotski.jpg",
     description: "---",
   },
