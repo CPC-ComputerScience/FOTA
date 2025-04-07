@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 export default function Home() {
   return (
     <div>
@@ -9,6 +10,7 @@ export default function Home() {
       <Link href="/onboarding">
         <button>Onboarding Page</button>
       </Link>
+
     </div>
   );
 }
