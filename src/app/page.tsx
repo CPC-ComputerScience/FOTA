@@ -4,7 +4,7 @@ export default function Home() {
     <div>
       <h1>Home Page</h1>
       <Link href="/test">
-        <button>Test page </button>
+        <button>Test page</button>
       </Link>
       <Link href="/onboarding">
         <button>Onboarding Page</button>
