@@ -1,0 +1,43 @@
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+.card {
+  font-size: 48px;
+  font-weight: bold;
+  margin: 20px auto;
+  padding: 30px;
+  width: 120px;
+  height: 120px;
+  background-color: #f1f1f1;
+  border-radius: 12px;
+  transition: transform 0.5s ease, color 0.5s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card.flip {
+  transform: rotateY(180deg);
+}
+
+.guess-controls {
+  margin: 20px 0;
+}
+
+.guess-controls button {
+  margin: 0 5px;
+  padding: 10px;
+}
+
+.submit-btn {
+  margin: 15px;
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.message {
+  font-size: 18px;
+  font-weight: 500;
+}
