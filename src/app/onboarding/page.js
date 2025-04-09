@@ -8,22 +8,22 @@ const games = [
     id: 1,
     title: "GAME1",
     path: "",
-    image: "/games/memory-card.jpg", // 确保图片在 public/games 目录下
-    description: "10101001000101101001110101001000011100111110001001000101",
+    image: "/games/memory-card.png", // 确保图片在 public/games 目录下
+    description: "带带大师兄",
   },
   {
     id: 2,
     title: "GAME1: Memory Card",
     path: "/app/game-2",
-    image: "/games/klotski.jpg",
-    description: "---",
+    image: "/games/klotski.png",
+    description: "你所热爱的，就是你的生活",
   },
   {
     id: 3,
     title: "GAME3",
     path: "/games/quiz",
-    image: "/games/quiz.jpg",
-    description: "---",
+    image: "/games/quiz.png",
+    description: "尊尼获加我给你房管你给我说话来",
   },
 ];
 
