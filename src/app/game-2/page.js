@@ -9,10 +9,10 @@ const MemoryCardGame = () => {
   // State to store all cards
   const [cards, setCards] = useState([]);
 
-  // State to track selected (clicked) cards
+  // track selected (clicked) cards
   const [selectedCards, setSelectedCards] = useState([]);
 
-  // State to track cards that have been matched
+  // track cards that have been matched
   const [matchedCards, setMatchedCards] = useState([]);
 
   // State to track game start and end times
@@ -84,10 +84,10 @@ const MemoryCardGame = () => {
     }
   };
 
-  // Check if the player has won
+  // Check if player won
   const hasWon = matchedCards.length === cards.length && cards.length > 0;
 
-  // Calculate elapsed time once the game is finished
+  // Calculate time taken
   const elapsedTime = endTime && startTime ? ((endTime - startTime) / 1000).toFixed(2) : null;
 
   return (
@@ -97,7 +97,7 @@ const MemoryCardGame = () => {
       {/* Show winning message and time taken */}
       {hasWon && (
         <div className="text-center mb-4">
-          <h2 className="text-2xl text-green-700 font-semibold">🎉 Congratulations! You Won! 🎉</h2>
+          <h2 className="text-2xl text-green-700 font-semibold"> Congratulations! You Won! </h2>
           {elapsedTime && <p className="text-lg mt-2">Time Taken: {elapsedTime} seconds</p>}
         </div>
       )}
@@ -132,12 +132,16 @@ const MemoryCardGame = () => {
         >
           Restart Game
         </button>
+
+        {/*
         <button
           onClick={() => router.back()}
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition"
         >
-          Go Back
+          Back to home page
         </button>
+        */}
+
       </div>
     </div>
   );
