@@ -8,7 +8,7 @@ const InstructionModal: React.FC<InstructionModalProps> = ({ onStartGame }) => {
   return (
     <div className="modal">
       <div className="modal-content">
-        <h2>Welcome to the Memory Game!</h2>
+        <h2>Sequence Memory Game</h2>
         <p>
           Memorize the sequence of colors shown to you. Once the sequence is displayed, click the colors in the correct order to proceed to the next level.
         </p>
