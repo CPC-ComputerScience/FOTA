@@ -5,13 +5,21 @@ import { useRouter } from 'next/navigation';
 
 const MemoryCardGame = () => {
   const router = useRouter();
+
+  // State to store all cards
   const [cards, setCards] = useState([]);
+
+  // State to track selected (clicked) cards
   const [selectedCards, setSelectedCards] = useState([]);
+
+  // State to track cards that have been matched
   const [matchedCards, setMatchedCards] = useState([]);
+
+  // State to track game start and end times
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  const [showPin, setShowPin] = useState(false); // <-- Added
 
+  // Function to initialize or restart the game
   const initializeGame = () => {
     const cardImages = [
       '/images/1.jpg',
@@ -24,44 +32,51 @@ const MemoryCardGame = () => {
       '/images/8.jpg',
     ];
 
+    // Duplicate and shuffle the cards
     const shuffledCards = [...cardImages, ...cardImages]
       .sort(() => Math.random() - 0.5)
       .map((src, index) => ({ id: index, src }));
 
+    // Reset all game states
     setCards(shuffledCards);
     setSelectedCards([]);
     setMatchedCards([]);
     setStartTime(Date.now());
     setEndTime(null);
-    setShowPin(false); // <-- Reset PIN display when restarting
   };
 
+  // Initialize the game when the page first loads
   useEffect(() => {
     initializeGame();
   }, []);
 
+  // Set end time when all cards are matched
   useEffect(() => {
     if (matchedCards.length === cards.length && cards.length > 0 && !endTime) {
       setEndTime(Date.now());
-      setShowPin(true); // <-- Show PIN when game is won
     }
   }, [matchedCards, cards, endTime]);
 
+  // Handle card click logic
   const handleCardClick = (card) => {
+    // Prevent clicking if already selected or matched or if 2 cards are selected
     if (
       selectedCards.length === 2 ||
       matchedCards.includes(card.id) ||
       selectedCards.includes(card)
-    ) return;
+    )
+      return;
 
     const newSelection = [...selectedCards, card];
     setSelectedCards(newSelection);
 
     if (newSelection.length === 2) {
+      // Check if two selected cards match
       if (newSelection[0].src === newSelection[1].src) {
         setMatchedCards([...matchedCards, newSelection[0].id, newSelection[1].id]);
         setSelectedCards([]);
       } else {
+        // If not matched, flip them back after a short delay
         setTimeout(() => {
           setSelectedCards([]);
         }, 800);
@@ -69,32 +84,26 @@ const MemoryCardGame = () => {
     }
   };
 
+  // Check if the player has won
   const hasWon = matchedCards.length === cards.length && cards.length > 0;
+
+  // Calculate elapsed time once the game is finished
   const elapsedTime = endTime && startTime ? ((endTime - startTime) / 1000).toFixed(2) : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-200 to-blue-300 flex flex-col items-center justify-center p-4">
       <h1 className="text-3xl font-bold mb-4 text-gray-800">Memory Card Game</h1>
 
-      {/* Show winning message, time taken, and PIN */}
+      {/* Show winning message and time taken */}
       {hasWon && (
         <div className="text-center mb-4">
-          <h2 className="text-xl text-gray-600 font-medium mb-2">Congratulations!</h2>
-          {elapsedTime && (
-            <p className="text-2xl font-bold text-blue-800 mt-2">
-              Time Taken: {elapsedTime} seconds
-            </p>
-          )}
-          {showPin && (
-            <p className="text-3xl font-extrabold text-red-600 underline mt-4">
-              Your PIN: 2913
-            </p>
-          )}
+          <h2 className="text-2xl text-green-700 font-semibold">🎉 Congratulations! You Won! 🎉</h2>
+          {elapsedTime && <p className="text-lg mt-2">Time Taken: {elapsedTime} seconds</p>}
         </div>
       )}
 
       {/* Game board grid */}
-      <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {cards.map((card) => (
           <button
             key={card.id}
@@ -105,8 +114,9 @@ const MemoryCardGame = () => {
             }`}
             onClick={() => handleCardClick(card)}
           >
+            {/* Show image if matched or selected, otherwise show question mark */}
             {matchedCards.includes(card.id) || selectedCards.includes(card) ? (
-              <img src={card.src} alt="card" className="w-20 h-24 object-cover object-top rounded" />
+              <img src={card.src} alt="card" className="w-24 h-24 object-cover object-top rounded" />
             ) : (
               '❓'
             )}
@@ -122,15 +132,12 @@ const MemoryCardGame = () => {
         >
           Restart Game
         </button>
-
-        {/* 
         <button
           onClick={() => router.back()}
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition"
         >
-          Back to home page
+          Go Back
         </button>
-        */}
       </div>
     </div>
   );
