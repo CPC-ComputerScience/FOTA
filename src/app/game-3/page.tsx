@@ -1,8 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import InstructionModal from '../components/InstructionModal';
-import '../styles/game.css';
+import GameBoard from './components/GameBoard';
+import InstructionModal from './components/InstructionModal';
+import ResultModal from './components/ResultModal';
+
+import './styles/game.css';
 
 const colors = ['red', 'blue', 'green', 'yellow'];
 
@@ -15,9 +18,9 @@ const MemoryTest = ({ pin }: { pin: string }) => {
   const [isFlashing, setIsFlashing] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameWon, setGameWon] = useState(false);
-  const [hasBeatenGame, setHasBeatenGame] = useState(false); 
+  const [hasBeatenGame, setHasBeatenGame] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  
   // Check localStorage for "hasBeatenGame" after the component mounts
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -26,12 +29,14 @@ const MemoryTest = ({ pin }: { pin: string }) => {
     }
   }, []);
 
+  // Start a new sequence when the game starts
   useEffect(() => {
     if (gameStarted) {
       generateNewSequence(true);
     }
   }, [gameStarted]);
 
+  // Generate a new sequence when the level increases
   useEffect(() => {
     if (gameStarted && level > 1) {
       generateNewSequence();
@@ -65,12 +70,17 @@ const MemoryTest = ({ pin }: { pin: string }) => {
   const handleColorClick = (color: string) => {
     if (isFlashing) return; // Ignore clicks during flashing
 
+    const button = document.querySelector(`.color-button.${color}`);
+    if (button) {
+      button.classList.add('clicked'); // Add a temporary "clicked" class for animation
+      setTimeout(() => button.classList.remove('clicked'), 300); // Remove class after animation
+    }
+
     setPlayerInput((prev) => [...prev, color]); // Add clicked color to player's input
 
     if (sequence[playerInput.length] !== color) { // Check if input is incorrect
-      alert('Incorrect! Try again from level 1.');
-      setLevel(1); // Reset level
-      setGameStarted(false); // Reset the game
+      setErrorMessage('Incorrect! Restart Game'); // Set error message
+      setGameStarted(false); // Stop the game
     } else if (playerInput.length + 1 === sequence.length) { // Check if sequence is complete
       if (level === 5) { // Check if player has won
         setShowModal(true); // Show winning modal
@@ -83,12 +93,15 @@ const MemoryTest = ({ pin }: { pin: string }) => {
     }
   };
 
+  // Starts the game
   const handleStartGame = () => {
     setGameStarted(true);
     setLevel(1); // Reset level
     setGameWon(false); // Reset gameWon state
+    setErrorMessage(null); // Clear error message
   };
 
+  // Resets the game
   const handleReplay = () => {
     setGameStarted(false);
     setLevel(1);
@@ -96,45 +109,42 @@ const MemoryTest = ({ pin }: { pin: string }) => {
     setPlayerInput([]);
     setShowModal(false);
     setGameWon(false); // Reset gameWon state
+    setErrorMessage(null); // Clear error message
   };
 
   return (
     <div>
-      {!gameStarted && <InstructionModal onStartGame={handleStartGame} />}
+      {!gameStarted && !errorMessage && (
+        <InstructionModal onStartGame={handleStartGame} />
+      )}
       {gameStarted && (
-        <div className="game-container">
-          <h1>Memory Sequence Test</h1>
-          <p>Level: {level}</p>
-          <div className="button-grid">
-            {colors.map((color) => (
-              <button
-                key={color}
-                onClick={() => handleColorClick(color)}
-                className={`color-button ${color} ${flashing === color ? 'flash' : ''}`}
-                disabled={isFlashing}
-              >
-                {color}
-              </button>
-            ))}
-          </div>
-          {gameWon && (
-            <button className="start-button" onClick={handleReplay}>
-              Replay Game
-            </button>
-          )}
-          {showModal && (
-            <div className="modal">
-              <p>The code is: {pin}</p>
-              <button onClick={() => setShowModal(false)}>Close</button>
-            </div>
-          )}
+        <GameBoard
+          level={level}
+          colors={colors}
+          flashing={flashing}
+          isFlashing={isFlashing}
+          onColorClick={handleColorClick}
+          errorMessage={errorMessage}
+        />
+      )}
+      {!gameStarted && errorMessage && (
+        <div className="error-overlay">
+          <p className="error-message">{errorMessage}</p>
+          <button className="restart-button" onClick={handleReplay}>
+            Restart Game
+          </button>
         </div>
       )}
+      
+      {showModal && (
+        <>
+          <ResultModal pin={pin} onClose={() => setShowModal(false)} />
+          {/* TODO: Add a restart button here for game completion */}
+        </>
+      )}
+      
       {hasBeatenGame && (
-        <button
-          className="show-code-button"
-          onClick={() => setShowModal(true)}
-        >
+        <button className="show-code-button" onClick={() => setShowModal(true)}>
           Show Code
         </button>
       )}
