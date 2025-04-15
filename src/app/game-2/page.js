@@ -10,7 +10,7 @@ const MemoryCardGame = () => {
   const [matchedCards, setMatchedCards] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  const [showPin, setShowPin] = useState(false); // <-- Added
+  const [showPin, setShowPin] = useState(false); //  Added
 
   const initializeGame = () => {
     const cardImages = [
@@ -33,7 +33,7 @@ const MemoryCardGame = () => {
     setMatchedCards([]);
     setStartTime(Date.now());
     setEndTime(null);
-    setShowPin(false); // <-- Reset PIN display when restarting
+    setShowPin(false); //  Reset PIN display when restarting
   };
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const MemoryCardGame = () => {
   useEffect(() => {
     if (matchedCards.length === cards.length && cards.length > 0 && !endTime) {
       setEndTime(Date.now());
-      setShowPin(true); // <-- Show PIN when game is won
+      setShowPin(true); //  Show PIN when game is won
     }
   }, [matchedCards, cards, endTime]);
 
