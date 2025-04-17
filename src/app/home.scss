@@ -1,0 +1,236 @@
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/PressStart2P-Regular.ttf") format("truetype");
+}
+
+.landing-content {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.landing-title {
+  flex: 1.5;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  font-weight: normal;
+}
+
+.landing-image {
+  height: 30vh;
+  width: auto;
+}
+
+@media screen and (max-width: 480px) and (orientation: portrait),
+  screen and (max-height: 480px) and (orientation: landscape) {
+  .landing-image {
+    display: block;
+    max-width: 70vw;
+    max-height: 16vh;
+    width: auto;
+    height: auto;
+  }
+}
+
+.landing-title-text {
+  display: flex;
+  justify-content: center;
+  padding-left: 10px;
+}
+
+@media screen and (max-width: 480px) and (orientation: portrait),
+  screen and (max-height: 480px) and (orientation: landscape) {
+  .landing-title-text {
+    margin-bottom: 10%;
+    transform-origin: bottom;
+    transform: scaleX(0.3) scaleY(0.35);
+  }
+}
+
+.landing-title-letter {
+  font-family: varsity;
+  color: #0036e2;
+  text-shadow: 9px 9px 4px #21285d, 0px 0px 29px rgba(191, 191, 191, 0.56);
+  transform: scaleY(1.7);
+  font-size: 15em;
+  margin: 0;
+}
+
+#landing-letter-1 {
+  transform: rotate(-19deg) translate3d(-151.5px, 25.9px, 0px) scaleY(1.5);
+}
+
+#landing-letter-2 {
+  transform: rotate(-5deg) translate3d(-48.7px, 15.9px, 0px) scaleY(1.5);
+}
+
+#landing-letter-3 {
+  transform: rotate(8.6deg) translate3d(26px, 24.8px, 0px) scaleY(1.5);
+}
+
+#landing-letter-4 {
+  transform: rotate(20deg) translate3d(116.8px, 43.8px, 0px) scaleY(1.5);
+}
+
+.landing-start-arrow {
+  font-family: press-start;
+  font-weight: normal;
+  font-size: 1em;
+  color: white;
+  color: #0036e2;
+  text-shadow: 3px 3px 4px #21285d, 0px 0px 16px rgba(191, 191, 191, 0.56);
+  animation: blinker 1s linear infinite;
+}
+
+.landing-start {
+  font-family: press-start;
+  font-weight: normal;
+  font-size: 1em;
+  color: white;
+  color: #0036e2;
+  text-shadow: 3px 3px 4px #21285d, 0px 0px 16px rgba(191, 191, 191, 0.56);
+  flex: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-start-text {
+  cursor: pointer;
+  font-weight: normal;
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  padding: 60px;
+}
+
+@media screen and (max-width: 480px) and (orientation: portrait),
+  screen and (max-height: 480px) and (orientation: landscape) {
+  .landing-start-text {
+    font-size: 1em;
+  }
+}
+
+.landing-copyright {
+  flex: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: flex-start;
+}
+
+@media screen and (max-width: 480px) and (orientation: portrait),
+  screen and (max-height: 480px) and (orientation: landscape) {
+  .landing-copyright {
+    font-size: 0.8em;
+    margin-bottom: 10vh;
+  }
+}
+
+.landing-copyright-text {
+  font-family: press-start;
+  font-size: 1em;
+  color: white;
+  color: #0036e2;
+  text-shadow: 3px 3px 4px #21285d, 0px 0px 16px rgba(191, 191, 191, 0.56);
+  font-size: 10px;
+  font-size: 0.9em;
+  font-weight: normal;
+}
+
+.content {
+  padding: 3%;
+  position: absolute;
+  background-color: rgba(169, 169, 169, 2);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Open Sans";
+
+  h1 {
+	font-size: x-large;
+  }
+  .link {
+    text-decoration: underline;
+	font-size: medium;
+  }
+}
+
+.tube-border {
+  width: 100%;
+  height: 100%;
+  background-image: url("/homepage-images/border-streched.png");
+  background-size: 100% 100%;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 480px) and (orientation: portrait),
+  screen and (max-height: 480px) and (orientation: landscape) {
+  .tube-border {
+    display: none;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) and (orientation: portrait),
+  screen and (max-height: 480px) and (orientation: landscape) {
+  .tube-border-mobile {
+    display: inherit;
+    background-image: url("/homepage-images/border-compressed.png");
+  }
+}
+
+.tube-shape {
+  background: black;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.tube-shape::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(18, 16, 16, 0.1);
+  opacity: 0;
+  z-index: 7;
+  pointer-events: none;
+  animation: flicker 0.15s infinite;
+}
+
+.tube-shape::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.06),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
+  z-index: 7;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
