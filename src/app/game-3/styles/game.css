@@ -29,6 +29,11 @@
     align-items: center;
 }
 
+.color-button.clicked {
+    transform: scale(0.9);
+    transition: transform 0.1s ease;
+}
+
 .red { background-color: red; }
 .blue { background-color: blue; }
 .green { background-color: green; }
@@ -131,4 +136,37 @@
         width: 90%; 
         transform: translate(-50%, -50%);
   }
+}
+
+/* Error overlay styling */
+.error-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+.error-message {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.restart-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.restart-button:hover {
+  background-color: #ff1a1a;
 }
