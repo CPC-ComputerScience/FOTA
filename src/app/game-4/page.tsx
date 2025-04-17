@@ -14,17 +14,19 @@ const Page = () => {
   const [gameOver, setGameOver] = useState(false);
   const [textColor, setTextColor] = useState('black');
   const [guessCount, setGuessCount] = useState(0);
+  const [codeVisible, setCodeVisible] = useState(false); // New state for showing code
 
   const submitGuess = () => {
     if (gameOver) return;
-  
+
     setAnimate(true);
-    setGuessCount(prev => prev + 1); // Increment guess count
-  
+    setGuessCount(prev => prev + 1);
+
     if (guess === targetNumber) {
       setMessage(`🎉 You guessed it in ${guessCount + 1} guesses! The number was ${targetNumber}.`);
       setGameOver(true);
       setTextColor('green');
+      setCodeVisible(true); // Show the code
     } else if (guess < targetNumber) {
       setMessage('Too low!');
       setTextColor('blue');
@@ -32,20 +34,11 @@ const Page = () => {
       setMessage('Too high!');
       setTextColor('red');
     }
-  
+
     setTimeout(() => {
       setAnimate(false);
       setTextColor('black');
     }, 500);
-  };
-
-  const resetGame = () => {
-    setTargetNumber(getRandomNumber());
-    setGuess(50);
-    setMessage('');
-    setGameOver(false);
-    setTextColor('black');
-    setGuessCount(0); // Reset guess counter
   };
 
   return (
@@ -55,18 +48,22 @@ const Page = () => {
       <Card number={guess} animate={animate} textColor={textColor} />
       <p>Guesses: {guessCount}</p>
       <p className="message">{message}</p>
-      <div className="guess-controls">
-        <button onClick={() => setGuess(prev => Math.max(1, prev - 10))}>-10</button>
-        <button onClick={() => setGuess(prev => Math.max(1, prev - 1))}>-1</button>
-        <button onClick={() => setGuess(prev => Math.min(100, prev + 1))}>+1</button>
-        <button onClick={() => setGuess(prev => Math.min(100, prev + 10))}>+10</button>
-      </div>
-      {!gameOver ? (
-        <button className="submit-btn" onClick={submitGuess}>Submit Guess</button>
-      ) : (
-        <button className="submit-btn" onClick={resetGame}>Play Again</button>
+      {codeVisible && (
+        <div className="secret-code">
+          <p>Your code is: <strong>1192</strong></p>
+        </div>
       )}
-
+      {!gameOver && (
+        <>
+          <div className="guess-controls">
+            <button onClick={() => setGuess(prev => Math.max(1, prev - 10))}>-10</button>
+            <button onClick={() => setGuess(prev => Math.max(1, prev - 1))}>-1</button>
+            <button onClick={() => setGuess(prev => Math.min(100, prev + 1))}>+1</button>
+            <button onClick={() => setGuess(prev => Math.min(100, prev + 10))}>+10</button>
+          </div>
+          <button className="submit-btn" onClick={submitGuess}>Submit Guess</button>
+        </>
+      )}
     </div>
   );
 };
