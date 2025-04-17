@@ -82,7 +82,7 @@ const MemoryTest = ({ pin }: { pin: string }) => {
       setErrorMessage('Incorrect! Restart Game'); // Set error message
       setGameStarted(false); // Stop the game
     } else if (playerInput.length + 1 === sequence.length) { // Check if sequence is complete
-      if (level === 5) { // Check if player has won
+      if (level === 1) { // Check if player has won
         setShowModal(true); // Show winning modal
         setGameWon(true); // Mark game as won
         localStorage.setItem("hasBeatenGame", "true"); // Save progress to localStorage
@@ -103,7 +103,17 @@ const MemoryTest = ({ pin }: { pin: string }) => {
 
   // Resets the game
   const handleReplay = () => {
-    setGameStarted(false);
+    setGameStarted(false); // Go back to the instruction modal
+    setLevel(1);
+    setSequence([]);
+    setPlayerInput([]);
+    setShowModal(false);
+    setGameWon(false); // Reset gameWon state
+    setErrorMessage(null); // Clear error message
+  };
+
+  const handleRestartGame = () => {
+    setGameStarted(true); // Restart the game without showing the instruction modal
     setLevel(1);
     setSequence([]);
     setPlayerInput([]);
@@ -114,37 +124,47 @@ const MemoryTest = ({ pin }: { pin: string }) => {
 
   return (
     <div>
-      {!gameStarted && !errorMessage && (
-        <InstructionModal onStartGame={handleStartGame} />
-      )}
+      {!gameStarted && !errorMessage && <InstructionModal onStartGame={handleStartGame} />}
       {gameStarted && (
-        <GameBoard
-          level={level}
-          colors={colors}
-          flashing={flashing}
-          isFlashing={isFlashing}
-          onColorClick={handleColorClick}
-          errorMessage={errorMessage}
-        />
+        <div className="game-container">
+          <h1>Memory Sequence Test</h1>
+          <p>Level: {level}</p>
+          <div className="button-grid">
+            {colors.map((color) => (
+              <button
+                key={color}
+                onClick={() => handleColorClick(color)}
+                className={`color-button ${color} ${flashing === color ? 'flash' : ''}`}
+                disabled={isFlashing}
+              />
+            ))}
+          </div>
+          {gameWon && (
+            <button className="start-button" onClick={handleReplay}>
+              Replay Game
+            </button>
+          )}
+          {showModal && (
+            <div className="modal">
+              <p>The code is: {pin}</p>
+              <button onClick={() => setShowModal(false)}>Close</button>
+            </div>
+          )}
+        </div>
       )}
       {!gameStarted && errorMessage && (
         <div className="error-overlay">
           <p className="error-message">{errorMessage}</p>
-          <button className="restart-button" onClick={handleReplay}>
+          <button className="start-button" onClick={handleReplay}>
             Restart Game
           </button>
         </div>
       )}
-      
-      {showModal && (
-        <>
-          <ResultModal pin={pin} onClose={() => setShowModal(false)} />
-          {/* TODO: Add a restart button here for game completion */}
-        </>
-      )}
-      
       {hasBeatenGame && (
-        <button className="show-code-button" onClick={() => setShowModal(true)}>
+        <button
+          className="show-code-button"
+          onClick={() => setShowModal(true)}
+        >
           Show Code
         </button>
       )}
