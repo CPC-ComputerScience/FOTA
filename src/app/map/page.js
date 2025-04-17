@@ -98,6 +98,17 @@ export default function MapPage() {
   const [currentEvents, setCurrentEvents] = useState([]);
   const [currentFloor, setCurrentFloor] = useState(1);
   const [showSchedule, setShowSchedule] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 检测移动端
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // 时间转换函数
   const parseTime = (timeStr) => {
@@ -135,95 +146,108 @@ export default function MapPage() {
 
   return (
     <div className="min-h-screen p-4 bg-gray-100">
-      {/* 标题和楼层切换按钮 */}
-      <div className="mb-4">
-        <h1 className="text-3xl font-bold text-black mb-2">FOTA Live Map</h1>
-        <div className="flex space-x-2 mb-4">
+      {/* 标题和楼层切换 - 始终显示 */}
+      <div className="mb-4 sticky top-0 bg-gray-100 z-10 pt-2 pb-4">
+        <h1 className="text-2xl md:text-3xl font-bold text-black mb-2">FOTA Live Map</h1>
+        <div className="flex space-x-2">
           <button 
             onClick={() => setCurrentFloor(1)}
-            className={`px-4 py-2 rounded-lg ${currentFloor === 1 ? 'bg-blue-600 text-white' : 'bg-white text-black border border-gray-300'}`}
+            className={`px-4 py-2 rounded-lg text-sm md:text-base ${
+              currentFloor === 1 ? 'bg-blue-600 text-white' : 'bg-white text-black border border-gray-300'
+            }`}
           >
             1F
           </button>
           <button 
             onClick={() => setCurrentFloor(2)}
-            className={`px-4 py-2 rounded-lg ${currentFloor === 2 ? 'bg-blue-600 text-white' : 'bg-white text-black border border-gray-300'}`}
+            className={`px-4 py-2 rounded-lg text-sm md:text-base ${
+              currentFloor === 2 ? 'bg-blue-600 text-white' : 'bg-white text-black border border-gray-300'
+            }`}
           >
             2F
           </button>
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4">
-        {/* 地图容器 */}
-        <div className="relative w-full md:w-2/3 aspect-video">
-          <Image
-            src={currentFloor === 1 ? floor1ImagePath : floor2ImagePath}
-            alt={`Floor ${currentFloor} Map`}
-            fill
-            className="rounded-lg shadow-lg object-cover"
-          />
-          
-          {/* 动态标记 */}
-          {currentEvents.map((event, index) => (
-            locationCoordinates[event.location] && (
-              <div
-                key={index}
-                className="absolute animate-pulse"
-                style={{
-                  left: `${locationCoordinates[event.location].x}px`,
-                  top: `${locationCoordinates[event.location].y}px`
-                }}
-              >
-                <div className="w-4 h-4 bg-red-500 rounded-full shadow-lg"></div>
-                <div className="absolute left-6 top-0 bg-white p-2 rounded shadow text-sm min-w-[200px] border border-gray-200">
-                  <h3 className="font-bold text-black">{event.location}</h3>
-                  <p className="text-black">{event.activity}</p>
-                  <p className="text-gray-600 text-xs">{event.time}</p>
-                </div>
+      {/* 主要内容区域 */}
+      <div className="flex flex-col-reverse md:flex-row gap-4">
+        {/* 活动侧边栏 - 移动端放上面 */}
+        <div className={`w-full ${isMobile ? 'mb-4' : 'md:w-1/3'}`}>
+          <div className="bg-white p-4 rounded-lg shadow h-full">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg md:text-xl font-bold text-black">Ongoing activities</h2>
+            </div>
+            
+            <div className={`${isMobile ? 'max-h-[200px]' : 'max-h-[400px]'} overflow-y-auto mb-4`}>
+              {currentEvents.length > 0 ? (
+                currentEvents.map((event, index) => (
+                  <div key={index} className="p-3 bg-gray-50 rounded border border-gray-200 mb-2">
+                    <h3 className="font-semibold text-black text-sm md:text-base">{event.location}</h3>
+                    <p className="text-black text-xs md:text-sm">{event.activity}</p>
+                    <p className="text-gray-600 text-xs">{event.time}</p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-600">No current activities</p>
+              )}
+            </div>
+
+            <button 
+              onClick={() => setShowSchedule(!showSchedule)}
+              className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base"
+            >
+              {showSchedule ? 'Hide Full Schedule' : 'Show Full Schedule'}
+            </button>
+
+            {showSchedule && (
+              <div className="mt-4">
+                <Image
+                  src={scheduleImagePath}
+                  alt="Full Event Schedule"
+                  width={600}
+                  height={800}
+                  className="w-full h-auto rounded border border-gray-300"
+                />
               </div>
-            )
-          ))}
+            )}
+          </div>
         </div>
 
-        {/* 活动侧边栏 */}
-        <div className="w-full md:w-1/3 bg-white p-4 rounded-lg shadow">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-black">Ongoing activities</h2>
-          </div>
-          
-          {currentEvents.length > 0 ? (
-            <div className="space-y-3 max-h-[400px] overflow-y-auto">
-              {currentEvents.map((event, index) => (
-                <div key={index} className="p-3 bg-gray-50 rounded border border-gray-200">
-                  <h3 className="font-semibold text-black">{event.location}</h3>
-                  <p className="text-sm text-black">{event.activity}</p>
-                  <p className="text-xs text-gray-600">{event.time}</p>
+        {/* 地图容器 - 移动端放下面 */}
+        <div className={`w-full ${isMobile ? 'h-[60vh]' : 'md:w-2/3 aspect-video'}`}>
+          <div className="relative w-full h-full bg-gray-200 rounded-lg shadow-lg overflow-hidden">
+            <Image
+              src={currentFloor === 1 ? floor1ImagePath : floor2ImagePath}
+              alt={`Floor ${currentFloor} Map`}
+              fill
+              className="object-contain"
+              priority
+            />
+            
+            {/* 动态标记 */}
+            {currentEvents.map((event, index) => (
+              locationCoordinates[event.location] && (
+                <div
+                  key={index}
+                  className="absolute animate-pulse"
+                  style={{
+                    left: `${locationCoordinates[event.location].x}px`,
+                    top: `${locationCoordinates[event.location].y}px`,
+                    transform: isMobile ? 'scale(0.8)' : 'scale(1)'
+                  }}
+                >
+                  <div className="w-3 h-3 md:w-4 md:h-4 bg-red-500 rounded-full shadow-lg"></div>
+                  <div className={`absolute left-4 md:left-6 top-0 bg-white p-2 rounded shadow ${
+                    isMobile ? 'text-xs min-w-[120px]' : 'text-sm min-w-[200px]'
+                  } border border-gray-200`}>
+                    <h3 className="font-bold text-black">{event.location}</h3>
+                    <p className="text-black">{event.activity}</p>
+                    <p className="text-gray-600 text-xs">{event.time}</p>
+                  </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-600">No current activities</p>
-          )}
-
-          <button 
-            onClick={() => setShowSchedule(!showSchedule)}
-            className="mt-4 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            {showSchedule ? 'Hide Full Schedule' : 'Show Full Schedule'}
-          </button>
-
-          {showSchedule && (
-            <div className="mt-4">
-              <Image
-                src={scheduleImagePath}
-                alt="Full Event Schedule"
-                width={600}
-                height={800}
-                className="w-full h-auto rounded border border-gray-300"
-              />
-            </div>
-          )}
+              )
+            ))}
+          </div>
         </div>
       </div>
     </div>
