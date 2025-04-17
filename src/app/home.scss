@@ -144,21 +144,33 @@
   font-weight: normal;
 }
 
+.img-container {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.8;
+  width: 60%;
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
 .content {
-  padding: 3%;
+  padding: 2%;
   position: absolute;
   background-color: rgba(169, 169, 169, 2);
-  top: 50%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Open Sans";
+  display: flex;
+  gap: 20px;
 
-  h1 {
-	font-size: x-large;
-  }
   .link {
     text-decoration: underline;
-	font-size: medium;
+    font-size: medium;
   }
 }
 
