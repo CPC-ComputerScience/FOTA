@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import GameBoard from './components/GameBoard';
+import React, { useState, useEffect, useCallback } from 'react';
 import InstructionModal from './components/InstructionModal';
-import ResultModal from './components/ResultModal';
 
 import './styles/game.css';
 
 const colors = ['red', 'blue', 'green', 'yellow'];
 
-const MemoryTest = ({ pin }: { pin: string }) => {
+const MemoryTest: React.FC = () => {
+  const pin = "4032"; 
+
   const [level, setLevel] = useState(1);
   const [sequence, setSequence] = useState<string[]>([]);
   const [playerInput, setPlayerInput] = useState<string[]>([]);
@@ -20,6 +20,78 @@ const MemoryTest = ({ pin }: { pin: string }) => {
   const [gameWon, setGameWon] = useState(false);
   const [hasBeatenGame, setHasBeatenGame] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Wrap generateNewSequence in useCallback to stabilize its reference
+  const generateNewSequence = useCallback(
+    (reset = false) => {
+      const newColor = colors[Math.floor(Math.random() * colors.length)];
+      setSequence((prev) => (reset ? [newColor] : [...prev, newColor]));
+      setPlayerInput([]);
+      flashSequence(reset ? [newColor] : [...sequence, newColor]);
+    },
+    [] // Removed `sequence` from dependencies
+  );
+
+  // Flashes the sequence of colors to the player
+  const flashSequence = async (seq: string[]) => {
+    setIsFlashing(true);
+    await new Promise((resolve) => setTimeout(resolve, 700));
+
+    for (let i = 0; i < seq.length; i++) {
+      setFlashing(seq[i]);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      setFlashing(null);
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    }
+
+    setIsFlashing(false);
+  };
+
+  // Handles player's color button clicks
+  const handleColorClick = (color: string) => {
+    if (isFlashing) return;
+
+    const button = document.querySelector(`.color-button.${color}`);
+    if (button) {
+      button.classList.add('clicked');
+      setTimeout(() => button.classList.remove('clicked'), 300);
+    }
+
+    setPlayerInput((prev) => [...prev, color]);
+
+    if (sequence[playerInput.length] !== color) {
+      setErrorMessage('Incorrect! Restart Game');
+      setGameStarted(false);
+    } else if (playerInput.length + 1 === sequence.length) {
+      if (level === 1) {
+        setShowModal(true);
+        setGameWon(true);
+        localStorage.setItem("hasBeatenGame", "true");
+        setHasBeatenGame(true);
+      } else {
+        setLevel((prev) => prev + 1);
+      }
+    }
+  };
+
+  // Starts the game
+  const handleStartGame = () => {
+    setGameStarted(true);
+    setLevel(1);
+    setGameWon(false);
+    setErrorMessage(null);
+  };
+
+  // Resets the game
+  const handleReplay = () => {
+    setGameStarted(false);
+    setLevel(1);
+    setSequence([]);
+    setPlayerInput([]);
+    setShowModal(false);
+    setGameWon(false);
+    setErrorMessage(null);
+  };
 
   // Check localStorage for "hasBeatenGame" after the component mounts
   useEffect(() => {
@@ -34,101 +106,22 @@ const MemoryTest = ({ pin }: { pin: string }) => {
     if (gameStarted) {
       generateNewSequence(true);
     }
-  }, [gameStarted]);
+  }, [generateNewSequence, gameStarted]);
 
   // Generate a new sequence when the level increases
   useEffect(() => {
     if (gameStarted && level > 1) {
       generateNewSequence();
     }
-  }, [level]);
-
-  // Generates a new sequence of colors for the game
-  const generateNewSequence = (reset = false) => {
-    const newColor = colors[Math.floor(Math.random() * colors.length)]; // Randomly pick a color
-    setSequence((prev) => (reset ? [newColor] : [...prev, newColor])); // Reset or append to the sequence
-    setPlayerInput([]); // Clear player's input
-    flashSequence(reset ? [newColor] : [...sequence, newColor]); // Flash the new sequence
-  };
-
-  // Flashes the sequence of colors to the player
-  const flashSequence = async (seq: string[]) => {
-    setIsFlashing(true); // Disable player input during flashing
-    await new Promise((resolve) => setTimeout(resolve, 700)); // Initial delay
-
-    for (let i = 0; i < seq.length; i++) {
-      setFlashing(seq[i]); // Highlight the current color
-      await new Promise((resolve) => setTimeout(resolve, 500)); // Flash duration
-      setFlashing(null); // Remove highlight
-      await new Promise((resolve) => setTimeout(resolve, 300)); // Pause between flashes
-    }
-
-    setIsFlashing(false); // Enable player input after flashing
-  };
-
-  // Handles player's color button clicks
-  const handleColorClick = (color: string) => {
-    if (isFlashing) return; // Ignore clicks during flashing
-
-    const button = document.querySelector(`.color-button.${color}`);
-    if (button) {
-      button.classList.add('clicked'); // Add a temporary "clicked" class for animation
-      setTimeout(() => button.classList.remove('clicked'), 300); // Remove class after animation
-    }
-
-    setPlayerInput((prev) => [...prev, color]); // Add clicked color to player's input
-
-    if (sequence[playerInput.length] !== color) { // Check if input is incorrect
-      setErrorMessage('Incorrect! Restart Game'); // Set error message
-      setGameStarted(false); // Stop the game
-    } else if (playerInput.length + 1 === sequence.length) { // Check if sequence is complete
-      if (level === 1) { // Check if player has won
-        setShowModal(true); // Show winning modal
-        setGameWon(true); // Mark game as won
-        localStorage.setItem("hasBeatenGame", "true"); // Save progress to localStorage
-        setHasBeatenGame(true); // Update state
-      } else {
-        setLevel((prev) => prev + 1); // Advance to the next level
-      }
-    }
-  };
-
-  // Starts the game
-  const handleStartGame = () => {
-    setGameStarted(true);
-    setLevel(1); // Reset level
-    setGameWon(false); // Reset gameWon state
-    setErrorMessage(null); // Clear error message
-  };
-
-  // Resets the game
-  const handleReplay = () => {
-    setGameStarted(false); // Go back to the instruction modal
-    setLevel(1);
-    setSequence([]);
-    setPlayerInput([]);
-    setShowModal(false);
-    setGameWon(false); // Reset gameWon state
-    setErrorMessage(null); // Clear error message
-  };
-
-  const handleRestartGame = () => {
-    setGameStarted(true); // Restart the game without showing the instruction modal
-    setLevel(1);
-    setSequence([]);
-    setPlayerInput([]);
-    setShowModal(false);
-    setGameWon(false); // Reset gameWon state
-    setErrorMessage(null); // Clear error message
-  };
+  }, [gameStarted, generateNewSequence, level]);
 
   return (
     <div>
       {!gameStarted && !errorMessage && <InstructionModal onStartGame={handleStartGame} />}
       {gameStarted && (
         <div className="game-container">
-          <h1>Memory Sequence Test</h1>
-          <p>Level: {level}</p>
+          <h1 className="memory-title">Memory Sequence Test</h1>
+          <p className="level">Level: {level}</p>
           <div className="button-grid">
             {colors.map((color) => (
               <button
