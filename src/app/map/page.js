@@ -1,6 +1,6 @@
 // src/app/map/page.js
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 
 const floor1ImagePath = "/map/floor1.jpg"; // 一楼地图路径
@@ -115,34 +115,37 @@ export default function MapPage() {
     const [start, end] = timeStr.split('-').map(t => {
       const [hours, minutes] = t.trim().split(':');
       const date = new Date();
-      date.setHours(parseInt(hours)), 
+      date.setHours(parseInt(hours));
       date.setMinutes(parseInt(minutes));
       return date;
     });
     return { start, end };
   };
 
-  // 更新当前活动
+  // 封装更新事件的逻辑
+  const updateEvents = useCallback(() => {
+    const activeEvents = scheduleData.filter(event => {
+      const { start, end } = parseTime(event.time);
+      return currentTime >= start && currentTime <= end;
+    }).flatMap(event => 
+      Object.entries(event.locations).map(([location, activity]) => ({
+        location,
+        activity,
+        time: event.time
+      }))
+    );
+    setCurrentEvents(activeEvents);
+  }, [currentTime]);
+
+  // 更新当前时间和活动
   useEffect(() => {
+    updateEvents(); // Initial call
     const timer = setInterval(() => {
-      setCurrentTime(new Date());
-      
-      const activeEvents = scheduleData.filter(event => {
-        const { start, end } = parseTime(event.time);
-        return currentTime >= start && currentTime <= end;
-      }).flatMap(event => 
-        Object.entries(event.locations).map(([location, activity]) => ({
-          location,
-          activity,
-          time: event.time
-        }))
-      );
-
-      setCurrentEvents(activeEvents);
-    }, 1000 * 30); // 每30秒更新
-
+      setCurrentTime(new Date()); // Update time periodically
+      updateEvents(); // Update events with new time
+    }, 1000 * 30); // Every 30 seconds
     return () => clearInterval(timer);
-  }, []);
+  }, [updateEvents]); // Depends on updateEvents, which depends on currentTime
 
   return (
     <div className="min-h-screen p-4 bg-gray-100">
