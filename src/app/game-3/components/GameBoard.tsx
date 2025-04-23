@@ -29,9 +29,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             onClick={() => onColorClick(color)}
             className={`color-button ${color} ${flashing === color ? 'flash' : ''}`}
             disabled={isFlashing}
-          >
-            {color}
-          </button>
+          />
         ))}
       </div>
     </div>
