@@ -1,7 +1,7 @@
 body {
     background: linear-gradient(135deg, #ff4d4d, #ffcc00, #4caf50, #2196f3);
     background-size: 600% 600%;
-    animation: gradient-shift 6s ease infinite;
+    animation: gradient-shift 12s ease infinite;
     margin: 0;
     font-family: Arial, sans-serif;
     height: 100vh; /* Ensure the body takes up the full viewport height */

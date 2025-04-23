@@ -11,7 +11,7 @@ const MemoryTest: React.FC = () => {
   const pin = "4032"; 
 
   const [level, setLevel] = useState(1);
-  const [sequence, setSequence] = useState<string[]>([]);
+  const [,setSequence] = useState<string[]>([]);
   const [playerInput, setPlayerInput] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [flashing, setFlashing] = useState<string | null>(null);
@@ -21,57 +21,67 @@ const MemoryTest: React.FC = () => {
   const [hasBeatenGame, setHasBeatenGame] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Wrap generateNewSequence in useCallback to stabilize its reference
+  // Flash the sequence
+  const flashSequence = async (seq: string[]) => {
+    setIsFlashing(true); // Disable player input during flashing
+
+    // Add a delay before starting the flashing sequence
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // 1-second pause
+
+    for (let i = 0; i < seq.length; i++) {
+      setFlashing(seq[i]); // Highlight the current color
+      await new Promise((resolve) => setTimeout(resolve, 500)); // Flash duration
+      setFlashing(null); // Remove highlight
+      await new Promise((resolve) => setTimeout(resolve, 300)); // Pause between flashes
+    }
+
+    setIsFlashing(false); // Enable player input after flashing
+  };
+
+  // Generate a new sequence
   const generateNewSequence = useCallback(
     (reset = false) => {
       const newColor = colors[Math.floor(Math.random() * colors.length)];
-      setSequence((prev) => (reset ? [newColor] : [...prev, newColor]));
-      setPlayerInput([]);
-      flashSequence(reset ? [newColor] : [...sequence, newColor]);
+      setSequence((prevSequence) => {
+        const newSequence = reset ? [newColor] : [...prevSequence, newColor];
+        setPlayerInput([]);
+        flashSequence(newSequence); // Flash the updated sequence
+        return newSequence; // Update the sequence state
+      });
     },
-    [] // Removed `sequence` from dependencies
+    []
   );
-
-  // Flashes the sequence of colors to the player
-  const flashSequence = async (seq: string[]) => {
-    setIsFlashing(true);
-    await new Promise((resolve) => setTimeout(resolve, 700));
-
-    for (let i = 0; i < seq.length; i++) {
-      setFlashing(seq[i]);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      setFlashing(null);
-      await new Promise((resolve) => setTimeout(resolve, 300));
-    }
-
-    setIsFlashing(false);
-  };
 
   // Handles player's color button clicks
   const handleColorClick = (color: string) => {
-    if (isFlashing) return;
+    if (isFlashing || hasBeatenGame) return; // Prevent clicks if flashing or game is beaten
 
     const button = document.querySelector(`.color-button.${color}`);
     if (button) {
       button.classList.add('clicked');
-      setTimeout(() => button.classList.remove('clicked'), 300);
+      setTimeout(() => {
+        button.classList.remove('clicked');
+      }, 300); // Ensure the animation completes
     }
 
     setPlayerInput((prev) => [...prev, color]);
 
-    if (sequence[playerInput.length] !== color) {
-      setErrorMessage('Incorrect! Restart Game');
-      setGameStarted(false);
-    } else if (playerInput.length + 1 === sequence.length) {
-      if (level === 1) {
-        setShowModal(true);
-        setGameWon(true);
-        localStorage.setItem("hasBeatenGame", "true");
-        setHasBeatenGame(true);
-      } else {
-        setLevel((prev) => prev + 1);
+    setSequence((prevSequence) => {
+      if (prevSequence[playerInput.length] !== color) {
+        setErrorMessage('Incorrect! Restart Game');
+        setGameStarted(false);
+      } else if (playerInput.length + 1 === prevSequence.length) {
+        if (level === 8) {
+          setShowModal(true);
+          setGameWon(true);
+          localStorage.setItem("hasBeatenGame", "true");
+          setHasBeatenGame(true); // Disable buttons after beating the game
+        } else {
+          setLevel((prev) => prev + 0.5);
+        }
       }
-    }
+      return prevSequence; // Return the sequence unchanged
+    });
   };
 
   // Starts the game
@@ -80,6 +90,7 @@ const MemoryTest: React.FC = () => {
     setLevel(1);
     setGameWon(false);
     setErrorMessage(null);
+    setHasBeatenGame(false);
   };
 
   // Resets the game
@@ -91,6 +102,7 @@ const MemoryTest: React.FC = () => {
     setShowModal(false);
     setGameWon(false);
     setErrorMessage(null);
+    setHasBeatenGame(false); // Re-enable buttons for the new game
   };
 
   // Check localStorage for "hasBeatenGame" after the component mounts
@@ -113,7 +125,7 @@ const MemoryTest: React.FC = () => {
     if (gameStarted && level > 1) {
       generateNewSequence();
     }
-  }, [gameStarted, generateNewSequence, level]);
+  }, [generateNewSequence, gameStarted, level]);
 
   return (
     <div>
@@ -128,7 +140,7 @@ const MemoryTest: React.FC = () => {
                 key={color}
                 onClick={() => handleColorClick(color)}
                 className={`color-button ${color} ${flashing === color ? 'flash' : ''}`}
-                disabled={isFlashing}
+                disabled={isFlashing || hasBeatenGame} // Disable buttons if flashing or game is beaten
               />
             ))}
           </div>
