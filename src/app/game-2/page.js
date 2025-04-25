@@ -15,7 +15,7 @@ const MemoryCardGame = () => {
   const [refreshAnimated, setRefreshAnimated] = useState(false);
 
   const initializeGame = () => {
-    const cardImages = [
+    const allCardImages = [
       '/images/1.jpg',
       '/images/2.jpeg',
       '/images/3.jpg',
@@ -24,24 +24,34 @@ const MemoryCardGame = () => {
       '/images/6.jpg',
       '/images/7.jpg',
       '/images/8.jpg',
+      '/images/9.jpg',
+      '/images/10.jpg',
+      '/images/11.jpg',
     ];
+  
+    //  Randomly pick 8 images out of 11
+    const selectedImages = [...allCardImages]
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 8);
+  
 
-    const shuffledCards = [...cardImages, ...cardImages]
+    const shuffledCards = [...selectedImages, ...selectedImages]
       .sort(() => Math.random() - 0.5)
       .map((src, index) => ({ id: index, src }));
-
+  
     setCards(shuffledCards);
     setSelectedCards([]);
     setMatchedCards([]);
     setStartTime(Date.now());
     setEndTime(null);
-    setShowPin(false); //  Reset PIN display when restarting
-
+    setShowPin(false);
+  
     setRefreshAnimated(true);
     setTimeout(() => {
-    setRefreshAnimated(false);
-}, 400); 
+      setRefreshAnimated(false);
+    }, 400);
   };
+  
 
   useEffect(() => {
     initializeGame();
@@ -50,7 +60,7 @@ const MemoryCardGame = () => {
   useEffect(() => {
     if (matchedCards.length === cards.length && cards.length > 0 && !endTime) {
       setEndTime(Date.now());
-      setShowPin(true); //  Show PIN when game is won
+      setShowPin(true); // Show PIN when game is won
     }
   }, [matchedCards, cards, endTime]);
 
