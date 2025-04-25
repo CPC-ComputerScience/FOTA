@@ -7,7 +7,7 @@ import './styles/game.css';
 const getRandomNumber = () => Math.floor(Math.random() * 100) + 1;
 
 const Page = () => {
-  const [targetNumber, setTargetNumber] = useState(getRandomNumber());
+  const [targetNumber] = useState(getRandomNumber());
   const [guess, setGuess] = useState(50);
   const [message, setMessage] = useState('');
   const [animate, setAnimate] = useState(false);
@@ -15,6 +15,8 @@ const Page = () => {
   const [textColor, setTextColor] = useState('black');
   const [guessCount, setGuessCount] = useState(0);
   const [codeVisible, setCodeVisible] = useState(false); // New state for showing code
+  const [flashClass, setFlashClass] = useState('');
+
 
   const submitGuess = () => {
     if (gameOver) return;
@@ -24,21 +26,25 @@ const Page = () => {
 
     if (guess === targetNumber) {
       setMessage(`🎉 You guessed it in ${guessCount + 1} guesses! The number was ${targetNumber}.`);
-      setGameOver(true); //removed reset game ability for 4 digit code
+      setGameOver(true);
       setTextColor('green');
-      setCodeVisible(true); // Show the code
+      setCodeVisible(true);
+      setFlashClass('');
     } else if (guess < targetNumber) {
       setMessage('Too low!');
       setTextColor('blue');
+      setFlashClass('flash-blue');
     } else {
       setMessage('Too high!');
       setTextColor('red');
+      setFlashClass('flash-red');
     }
-
     setTimeout(() => {
       setAnimate(false);
       setTextColor('black');
+      setFlashClass('');
     }, 500);
+
   };
 
   return (
@@ -47,7 +53,7 @@ const Page = () => {
       <p>How it works: The goal of the game is to try to guess the randomly chosen number.</p>
       <Card number={guess} animate={animate} textColor={textColor} />
       <p>Guesses: {guessCount}</p>
-      <p className="message">{message}</p>
+      <p className={`message ${flashClass}`}>{message}</p>
       {codeVisible && (
         <div className="secret-code">
           <p>Your code is: <strong>1192</strong></p>
