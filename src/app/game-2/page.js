@@ -75,12 +75,15 @@ const MemoryCardGame = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-200 to-blue-300 flex flex-col items-center justify-center p-4">
-      <h1 className="text-3xl font-bold mb-4 text-gray-800">Memory Card Game</h1>
+      <h1 className="text-3xl font-bold mb-4 text-gray-800">
+  {hasWon ? " Congratulations! " : "Memory Card Game"}
+</h1>
+
 
       {/* Show winning message, time taken, and PIN */}
       {hasWon && (
         <div className="text-center mb-4">
-          <h2 className="text-xl text-gray-600 font-medium mb-2">Congratulations!</h2>
+
           {elapsedTime && (
             <p className="text-2xl font-bold text-blue-800 mt-2">
               Time Taken: {elapsedTime} seconds
