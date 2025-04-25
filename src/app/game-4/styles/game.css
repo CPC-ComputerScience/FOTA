@@ -1,6 +1,12 @@
 .container {
   text-align: center;
   padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
 .card {
@@ -18,26 +24,80 @@
   align-items: center;
 }
 
+/* Flip animation */
 .card.flip {
   transform: rotateY(180deg);
 }
 
+/* Shake animation */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+  100% { transform: translateX(0); }
+}
+
+.card.shake {
+  animation: shake 0.4s ease;
+}
+
 .guess-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
   margin: 20px 0;
 }
 
+.guess-controls button,
+.submit-btn {
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
 .guess-controls button {
-  margin: 0 5px;
-  padding: 10px;
+  background-color: #0070f3;
+}
+
+.guess-controls button:hover {
+  background-color: #005dc1;
+  transform: scale(1.05);
+}
+
+.guess-controls button:active {
+  transform: scale(0.95);
 }
 
 .submit-btn {
-  margin: 15px;
-  padding: 12px 24px;
-  font-size: 16px;
+  background-color: #28a745;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background-color: #1f8c3b;
+  transform: scale(1.05);
+}
+
+.submit-btn:active {
+  transform: scale(0.95);
 }
 
 .message {
   font-size: 18px;
   font-weight: 500;
+  margin: 10px 0;
+}
+
+.secret-code {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #444;
 }

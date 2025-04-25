@@ -14,7 +14,9 @@ const Page = () => {
   const [gameOver, setGameOver] = useState(false);
   const [textColor, setTextColor] = useState('black');
   const [guessCount, setGuessCount] = useState(0);
-  const [codeVisible, setCodeVisible] = useState(false); // New state for showing code
+  const [codeVisible, setCodeVisible] = useState(false);
+
+  const isWrongGuess = message === 'Too low!' || message === 'Too high!';
 
   const submitGuess = () => {
     if (gameOver) return;
@@ -24,9 +26,9 @@ const Page = () => {
 
     if (guess === targetNumber) {
       setMessage(`🎉 You guessed it in ${guessCount + 1} guesses! The number was ${targetNumber}.`);
-      setGameOver(true); //removed reset game ability for 4 digit code
+      setGameOver(true);
       setTextColor('green');
-      setCodeVisible(true); // Show the code
+      setCodeVisible(true);
     } else if (guess < targetNumber) {
       setMessage('Too low!');
       setTextColor('blue');
@@ -45,7 +47,12 @@ const Page = () => {
     <div className="container">
       <h1>Higher or Lower?</h1>
       <p>How it works: The goal of the game is to try to guess the randomly chosen number.</p>
-      <Card number={guess} animate={animate} textColor={textColor} />
+      <Card
+        number={guess}
+        animate={animate}
+        textColor={textColor}
+        className={isWrongGuess ? 'shake' : ''}
+      />
       <p>Guesses: {guessCount}</p>
       <p className="message">{message}</p>
       {codeVisible && (
