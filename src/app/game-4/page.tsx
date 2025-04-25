@@ -24,7 +24,7 @@ const Page = () => {
 
     if (guess === targetNumber) {
       setMessage(`🎉 You guessed it in ${guessCount + 1} guesses! The number was ${targetNumber}.`);
-      setGameOver(true);
+      setGameOver(true); //removed reset game ability for 4 digit code
       setTextColor('green');
       setCodeVisible(true); // Show the code
     } else if (guess < targetNumber) {
