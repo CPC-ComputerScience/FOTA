@@ -8,10 +8,10 @@ import './styles/game.css';
 const colors = ['red', 'blue', 'green', 'yellow'];
 
 const MemoryTest: React.FC = () => {
-  const pin = "4032"; 
+  const pin = "4032";
 
   const [level, setLevel] = useState(1);
-  const [,setSequence] = useState<string[]>([]);
+  const [, setSequence] = useState<string[]>([]);
   const [playerInput, setPlayerInput] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [flashing, setFlashing] = useState<string | null>(null);
@@ -19,6 +19,7 @@ const MemoryTest: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [hasBeatenGame, setHasBeatenGame] = useState(false);
+  const [showCodeButton, setShowCodeButton] = useState(false); // Controls the visibility of the "Show Code" button
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Flash the sequence
@@ -71,11 +72,13 @@ const MemoryTest: React.FC = () => {
         setErrorMessage('Incorrect! Restart Game');
         setGameStarted(false);
       } else if (playerInput.length + 1 === prevSequence.length) {
-        if (level === 8) {
+        if (level === 2) {
           setShowModal(true);
           setGameWon(true);
           localStorage.setItem("hasBeatenGame", "true");
           setHasBeatenGame(true); // Disable buttons after beating the game
+          setShowCodeButton(true); // Show the "Show Code" button
+          localStorage.setItem("showCodeButton", "true"); 
         } else {
           setLevel((prev) => prev + 0.5);
         }
@@ -90,7 +93,7 @@ const MemoryTest: React.FC = () => {
     setLevel(1);
     setGameWon(false);
     setErrorMessage(null);
-    setHasBeatenGame(false);
+    setHasBeatenGame(false); // Allow button clicks for the new game
   };
 
   // Resets the game
@@ -102,14 +105,17 @@ const MemoryTest: React.FC = () => {
     setShowModal(false);
     setGameWon(false);
     setErrorMessage(null);
-    setHasBeatenGame(false); // Re-enable buttons for the new game
+    setHasBeatenGame(false); // Allow button clicks for the new game
+    // Do not reset `showCodeButton` so the button remains visible
   };
 
-  // Check localStorage for "hasBeatenGame" after the component mounts
+  // Check localStorage for "hasBeatenGame" and "showCodeButton" after the component mounts
   useEffect(() => {
     if (typeof window !== "undefined") {
       const beatenGame = localStorage.getItem("hasBeatenGame") === "true";
+      const showCode = localStorage.getItem("showCodeButton") === "true";
       setHasBeatenGame(beatenGame);
+      setShowCodeButton(showCode);
     }
   }, []);
 
@@ -165,7 +171,7 @@ const MemoryTest: React.FC = () => {
           </button>
         </div>
       )}
-      {hasBeatenGame && (
+      {showCodeButton && (
         <button
           className="show-code-button"
           onClick={() => setShowModal(true)}
