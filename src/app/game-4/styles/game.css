@@ -90,7 +90,7 @@ h1 {
 }
 
 .message {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 500;
   margin: 10px 0;
 }
@@ -99,5 +99,25 @@ h1 {
   margin-top: 15px;
   font-size: 18px;
   font-weight: bold;
-  color: #444;
+  color: #4cff43;
+}
+/* Flash and pop animation for wrong messages */
+@keyframes flashRed {
+  0% { color: #ff0000; transform: scale(1); }
+  50% { color: #ff6666; transform: scale(1.2); }
+  100% { color: #ff0000; transform: scale(1); }
+}
+
+@keyframes flashBlue {
+  0% { color: #0000ff; transform: scale(1); }
+  50% { color: #66aaff; transform: scale(1.2); }
+  100% { color: #0000ff; transform: scale(1); }
+}
+
+.message.flash-red {
+  animation: flashRed 0.5s ease-in-out;
+}
+
+.message.flash-blue {
+  animation: flashBlue 0.5s ease-in-out;
 }

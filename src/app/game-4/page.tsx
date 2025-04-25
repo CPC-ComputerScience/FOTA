@@ -7,16 +7,16 @@ import './styles/game.css';
 const getRandomNumber = () => Math.floor(Math.random() * 100) + 1;
 
 const Page = () => {
-  const [targetNumber, setTargetNumber] = useState(getRandomNumber());
+  const [targetNumber] = useState(getRandomNumber());
   const [guess, setGuess] = useState(50);
   const [message, setMessage] = useState('');
   const [animate, setAnimate] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [textColor, setTextColor] = useState('black');
   const [guessCount, setGuessCount] = useState(0);
-  const [codeVisible, setCodeVisible] = useState(false);
+  const [codeVisible, setCodeVisible] = useState(false); // New state for showing code
+  const [flashClass, setFlashClass] = useState('');
 
-  const isWrongGuess = message === 'Too low!' || message === 'Too high!';
 
   const submitGuess = () => {
     if (gameOver) return;
@@ -29,32 +29,31 @@ const Page = () => {
       setGameOver(true);
       setTextColor('green');
       setCodeVisible(true);
+      setFlashClass('');
     } else if (guess < targetNumber) {
       setMessage('Too low!');
       setTextColor('blue');
+      setFlashClass('flash-blue');
     } else {
       setMessage('Too high!');
       setTextColor('red');
+      setFlashClass('flash-red');
     }
-
     setTimeout(() => {
       setAnimate(false);
       setTextColor('black');
+      setFlashClass('');
     }, 500);
+
   };
 
   return (
     <div className="container">
       <h1>Higher or Lower?</h1>
       <p>How it works: The goal of the game is to try to guess the randomly chosen number.</p>
-      <Card
-        number={guess}
-        animate={animate}
-        textColor={textColor}
-        className={isWrongGuess ? 'shake' : ''}
-      />
+      <Card number={guess} animate={animate} textColor={textColor} />
       <p>Guesses: {guessCount}</p>
-      <p className="message">{message}</p>
+      <p className={`message ${flashClass}`}>{message}</p>
       {codeVisible && (
         <div className="secret-code">
           <p>Your code is: <strong>1192</strong></p>
