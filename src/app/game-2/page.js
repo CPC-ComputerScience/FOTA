@@ -11,7 +11,8 @@ const MemoryCardGame = () => {
   const [matchedCards, setMatchedCards] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  const [showPin, setShowPin] = useState(false); //  Added
+  const [showPin, setShowPin] = useState(false); 
+  const [refreshAnimated, setRefreshAnimated] = useState(false);
 
   const initializeGame = () => {
     const cardImages = [
@@ -35,6 +36,11 @@ const MemoryCardGame = () => {
     setStartTime(Date.now());
     setEndTime(null);
     setShowPin(false); //  Reset PIN display when restarting
+
+    setRefreshAnimated(true);
+    setTimeout(() => {
+    setRefreshAnimated(false);
+}, 400); 
   };
 
   useEffect(() => {
@@ -75,8 +81,10 @@ const MemoryCardGame = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-200 to-blue-300 flex flex-col items-center justify-center p-4">
-      <h1 className="text-3xl font-bold mb-4 text-gray-800">
-  {hasWon ? " Congratulations! " : "Memory Card Game"}
+      <h1 className={`text-3xl font-bold mb-4 text-gray-800 transition duration-300 ${
+  refreshAnimated ? 'animate-bounce text-blue-600' : ''
+}`}>
+  {hasWon ? "🎉YOU WON!🎉" : "Memory Card Game"}
 </h1>
 
 
