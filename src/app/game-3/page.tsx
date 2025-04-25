@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import InstructionModal from './components/InstructionModal';
+import Link from "next/link";
 
 import './styles/game.css';
 
@@ -135,6 +136,11 @@ const MemoryTest: React.FC = () => {
 
   return (
     <div>
+      <div className="back-to-home">
+        <Link href="/" className="back-button">
+          Back to Home
+        </Link>
+      </div>
       {!gameStarted && !errorMessage && <InstructionModal onStartGame={handleStartGame} />}
       {gameStarted && (
         <div className="game-container">
