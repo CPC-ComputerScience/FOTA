@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const MemoryCardGame = () => {
   const router = useRouter();
@@ -106,7 +107,16 @@ const MemoryCardGame = () => {
             onClick={() => handleCardClick(card)}
           >
             {matchedCards.includes(card.id) || selectedCards.includes(card) ? (
-              <img src={card.src} alt="card" className="w-20 h-24 object-cover object-top rounded" />
+              <div className="relative w-20 h-24 rounded overflow-hidden">
+              <Image
+                src={card.src}
+                alt="card"
+                fill
+                className="object-cover object-top rounded"
+                sizes="(max-width: 768px) 20vw, 80px"
+                priority
+              />
+            </div>
             ) : (
               '❓'
             )}
@@ -123,14 +133,14 @@ const MemoryCardGame = () => {
           Restart Game
         </button>
 
-        {/* 
+        { 
         <button
           onClick={() => router.back()}
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition"
         >
           Back to home page
         </button>
-        */}
+        }
       </div>
     </div>
   );

@@ -1,3 +1,26 @@
+body {
+    background: linear-gradient(135deg, #ff4d4d, #ffcc00, #4caf50, #2196f3);
+    background-size: 600% 600%;
+    animation: gradient-shift 12s ease infinite;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh; /* Ensure the body takes up the full viewport height */
+    overflow: hidden; /* Prevent scrolling */
+}
+
+html {
+    height: 100%; /* Ensure the html element takes up the full height */
+    overflow: hidden; /* Prevent scrolling */
+    touch-action: none; /* Disable touch gestures like dragging */
+    -webkit-overflow-scrolling: none; /* Disable momentum scrolling on iOS */
+}
+
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 .game-container {
     text-align: center;
     padding: 20px;
@@ -5,6 +28,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.game-container .memory-title {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.game-container .level {
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
 /* Flexbox for the button grid */
@@ -58,7 +91,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -30%);
-    background: white;
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -110,7 +143,7 @@
 
 /* Animation for the flashing effect */
 .flash {
-    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.8);
     transition: box-shadow 0.3s ease-in-out;
 }
 
@@ -170,3 +203,24 @@
 .restart-button:hover {
   background-color: #ff1a1a;
 }
+
+.back-to-home {
+    display: flex; 
+    justify-content: flex-start; 
+    padding: 10px 20px;
+  }
+  
+  .back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff; 
+    color: white; 
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #0056b3; 
+  }
