@@ -24,7 +24,7 @@ const MemoryTest: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Flash the sequence
-  const flashSequence = async (seq: string[]) => {
+  const flashSequence = useCallback(async (seq: string[]) => {
     setIsFlashing(true); // Disable player input during flashing
 
     // Add a delay before starting the flashing sequence
@@ -38,7 +38,7 @@ const MemoryTest: React.FC = () => {
     }
 
     setIsFlashing(false); // Enable player input after flashing
-  };
+  }, []);
 
   // Generate a new sequence
   const generateNewSequence = useCallback(
@@ -51,7 +51,7 @@ const MemoryTest: React.FC = () => {
         return newSequence; // Update the sequence state
       });
     },
-    []
+    [flashSequence] // Include flashSequence as a dependency
   );
 
   // Handles player's color button clicks
@@ -73,7 +73,7 @@ const MemoryTest: React.FC = () => {
         setErrorMessage('Incorrect! Restart Game');
         setGameStarted(false);
       } else if (playerInput.length + 1 === prevSequence.length) {
-        if (level === 8) {
+        if (level === 6) {
           setShowModal(true);
           setGameWon(true);
           localStorage.setItem("hasBeatenGame", "true");
