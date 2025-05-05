@@ -1,7 +1,15 @@
 .container {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
   font-family: Arial, sans-serif;
+  text-align: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+  max-width: 600px; /* Prevents it from stretching too wide */
+  margin: 0 auto;    /* Centers horizontally */
 }
 
 h1 {
@@ -24,12 +32,10 @@ h1 {
   align-items: center;
 }
 
-/* Flip animation */
 .card.flip {
   transform: rotateY(180deg);
 }
 
-/* Shake animation */
 @keyframes shake {
   0% { transform: translateX(0); }
   20% { transform: translateX(-8px); }
@@ -101,7 +107,7 @@ h1 {
   font-weight: bold;
   color: #4cff43;
 }
-/* Flash and pop animation for wrong messages */
+
 @keyframes flashRed {
   0% { color: #ff0000; transform: scale(1); }
   50% { color: #ff6666; transform: scale(1.2); }
@@ -120,4 +126,28 @@ h1 {
 
 .message.flash-blue {
   animation: flashBlue 0.5s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    width: 100px;
+    height: 100px;
+    font-size: 36px;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .guess-controls button,
+  .submit-btn {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .message {
+    font-size: 18px;
+  }
 }
