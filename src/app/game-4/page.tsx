@@ -55,7 +55,7 @@ const Page = () => {
       <p className={`message ${flashClass}`}>{message}</p>
       {codeVisible && (
         <div className="secret-code">
-          <p>Your code is: <strong>1192</strong></p>
+          <p>Your code is: <strong>1592</strong></p>
         </div>
       )}
       {!gameOver && (
