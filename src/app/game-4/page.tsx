@@ -17,7 +17,6 @@ const Page = () => {
   const [codeVisible, setCodeVisible] = useState(false); // New state for showing code
   const [flashClass, setFlashClass] = useState('');
 
-
   const submitGuess = () => {
     if (gameOver) return;
 
