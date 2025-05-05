@@ -73,7 +73,7 @@ const MemoryTest: React.FC = () => {
         setErrorMessage('Incorrect! Restart Game');
         setGameStarted(false);
       } else if (playerInput.length + 1 === prevSequence.length) {
-        if (level === 2) {
+        if (level === 8) {
           setShowModal(true);
           setGameWon(true);
           localStorage.setItem("hasBeatenGame", "true");
@@ -135,7 +135,7 @@ const MemoryTest: React.FC = () => {
   }, [generateNewSequence, gameStarted, level]);
 
   return (
-    <div>
+    <div className = 'memory-test-page'>
       <div className="back-to-home">
         <Link href="/" className="back-button">
           Back to Home
