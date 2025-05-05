@@ -1,13 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Sidebar from "../components/Sidebar";
 import "./home.scss";
-import { useState, useRef, useEffect } from "react";
 
 export default function Home() {
   return (
-    <div className="home-page">
+    <div className="home-page" >
       <div id="tube-border" className="tube-border tube-border-mobile"></div>
 
       <div className="tube-shape">
