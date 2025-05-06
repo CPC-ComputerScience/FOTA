@@ -2,9 +2,7 @@
 
 import TubeEffects from "./components/TubeEffects/TubeEffects";
 import Link from "next/link";
-import Sidebar from "../components/Sidebar";
 import "./home.scss";
-import { useState, useRef, useEffect } from "react";
 
 export default function Home() {
   return (
