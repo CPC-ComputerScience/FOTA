@@ -11,31 +11,47 @@ const MemoryCardGame = () => {
   const [matchedCards, setMatchedCards] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  const [showPin, setShowPin] = useState(false); //  Added
+  const [showPin, setShowPin] = useState(false); 
+  const [refreshAnimated, setRefreshAnimated] = useState(false);
 
   const initializeGame = () => {
-    const cardImages = [
-      '/images/1.jpg',
-      '/images/2.jpeg',
-      '/images/3.jpg',
-      '/images/4.jpg',
-      '/images/5.jpg',
-      '/images/6.jpg',
-      '/images/7.jpg',
-      '/images/8.jpg',
+    const allCardImages = [
+      '/images/1.png',
+      '/images/2.jpg',
+      '/images/3.png',
+      '/images/4.jpeg',
+      '/images/5.jpeg',
+      '/images/6.png',
+      '/images/7.jpeg',
+      '/images/8.png',
+      '/images/9.jpeg',
+      '/images/10.jpeg',
+      '/images/11.jpg',
     ];
+  
+    //  Randomly pick 8 images out of 11
+    const selectedImages = [...allCardImages]
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 8);
+  
 
-    const shuffledCards = [...cardImages, ...cardImages]
+    const shuffledCards = [...selectedImages, ...selectedImages]
       .sort(() => Math.random() - 0.5)
       .map((src, index) => ({ id: index, src }));
-
+  
     setCards(shuffledCards);
     setSelectedCards([]);
     setMatchedCards([]);
     setStartTime(Date.now());
     setEndTime(null);
-    setShowPin(false); //  Reset PIN display when restarting
+    setShowPin(false);
+  
+    setRefreshAnimated(true);
+    setTimeout(() => {
+      setRefreshAnimated(false);
+    }, 400);
   };
+  
 
   useEffect(() => {
     initializeGame();
@@ -44,7 +60,7 @@ const MemoryCardGame = () => {
   useEffect(() => {
     if (matchedCards.length === cards.length && cards.length > 0 && !endTime) {
       setEndTime(Date.now());
-      setShowPin(true); //  Show PIN when game is won
+      setShowPin(true); // Show PIN when game is won
     }
   }, [matchedCards, cards, endTime]);
 
@@ -75,12 +91,17 @@ const MemoryCardGame = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-200 to-blue-300 flex flex-col items-center justify-center p-4">
-      <h1 className="text-3xl font-bold mb-4 text-gray-800">Memory Card Game</h1>
+      <h1 className={`text-3xl font-bold mb-4 text-gray-800 transition duration-300 ${
+  refreshAnimated ? 'animate-bounce text-blue-600' : ''
+}`}>
+  {hasWon ? "🎉YOU WON!🎉" : "Memory Card Game"}
+</h1>
+
 
       {/* Show winning message, time taken, and PIN */}
       {hasWon && (
         <div className="text-center mb-4">
-          <h2 className="text-xl text-gray-600 font-medium mb-2">Congratulations!</h2>
+
           {elapsedTime && (
             <p className="text-2xl font-bold text-blue-800 mt-2">
               Time Taken: {elapsedTime} seconds
