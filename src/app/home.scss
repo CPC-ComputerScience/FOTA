@@ -1,6 +1,21 @@
+
 @font-face {
   font-family: "Open Sans";
   src: url("/fonts/PressStart2P-Regular.ttf") format("truetype");
+}
+
+:root {
+  color-scheme: light;
+}
+
+html, body {
+  background-color: white !important;
+}
+
+.home-page {
+  background-color: white !important;
+  min-height: 100vh;
+  width: 100vw;
 }
 
 .landing-content {
@@ -144,21 +159,33 @@
   font-weight: normal;
 }
 
+.img-container {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.8;
+  width: 60%;
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
 .content {
-  padding: 3%;
+  padding: 2%;
   position: absolute;
   background-color: rgba(169, 169, 169, 2);
-  top: 50%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Open Sans";
+  display: flex;
+  gap: 20px;
 
-  h1 {
-	font-size: x-large;
-  }
   .link {
     text-decoration: underline;
-	font-size: medium;
+    font-size: medium;
   }
 }
 
@@ -192,7 +219,7 @@
 }
 
 .tube-shape {
-  background: black;
+  background: white;
   color: white;
   text-align: center;
   overflow: hidden;
@@ -233,4 +260,11 @@
   z-index: 7;
   background-size: 100% 2px, 3px 100%;
   pointer-events: none;
+}
+
+html body .home-page {
+  background-color: white !important;
+}
+html body .tube-shape {
+  background: white !important;
 }
