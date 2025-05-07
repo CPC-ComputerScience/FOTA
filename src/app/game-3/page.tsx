@@ -23,6 +23,15 @@ const MemoryTest: React.FC = () => {
   const [showCodeButton, setShowCodeButton] = useState(false); // Controls the visibility of the "Show Code" button
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // Path to the single beep sound file
+  const beepSound = "/sounds/beep.mp3";
+
+  // Function to play the beep sound
+  const playBeep = () => {
+    const audio = new Audio(beepSound);
+    audio.play();
+  };
+
   // Flash the sequence
   const flashSequence = useCallback(async (seq: string[]) => {
     setIsFlashing(true); // Disable player input during flashing
@@ -32,6 +41,7 @@ const MemoryTest: React.FC = () => {
 
     for (let i = 0; i < seq.length; i++) {
       setFlashing(seq[i]); // Highlight the current color
+      playBeep(); // Play the beep sound
       await new Promise((resolve) => setTimeout(resolve, 500)); // Flash duration
       setFlashing(null); // Remove highlight
       await new Promise((resolve) => setTimeout(resolve, 300)); // Pause between flashes
@@ -65,6 +75,8 @@ const MemoryTest: React.FC = () => {
         button.classList.remove('clicked');
       }, 300); // Ensure the animation completes
     }
+
+    playBeep(); // Play the beep sound
 
     setPlayerInput((prev) => [...prev, color]);
 
