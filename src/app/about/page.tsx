@@ -12,14 +12,14 @@ export default function About() {
       <div id="tube-border" className="tube-border tube-border-mobile"></div>
 
       <div className="tube-shape">
-        <a href="/">
+        <Link href="/">
           <div className="back-button">
             <p>Back</p>
           </div>
-        </a>
+        </Link>
         <div className="about-content">
           <p>
-            Crestwood's artists shine during The Festival Of The Arts.
+            Crestwood&apos;s artists shine during The Festival Of The Arts.
           </p>
         </div>
       </div>
