@@ -1,11 +1,14 @@
 "use client";
 
+import TubeEffects from "./components/TubeEffects/TubeEffects";
 import Link from "next/link";
 import "./home.scss";
 
 export default function Home() {
   return (
-    <div className="home-page" >
+    <div className="home-page">
+      <TubeEffects />
+
       <div id="tube-border" className="tube-border tube-border-mobile"></div>
 
       <div className="tube-shape">
