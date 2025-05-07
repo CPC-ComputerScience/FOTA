@@ -75,7 +75,7 @@ const MemoryTest: React.FC = () => {
         setErrorMessage("Incorrect! Restart Game");
         setGameStarted(false);
       } else if (playerInput.length + 1 === prevSequence.length) {
-        if (level === 7) {
+        if (level === 6) {
           setShowModal(true);
           setGameWon(true);
           localStorage.setItem("hasBeatenGame", "true");
