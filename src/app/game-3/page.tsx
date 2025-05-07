@@ -23,8 +23,17 @@ const MemoryTest: React.FC = () => {
   const [showCodeButton, setShowCodeButton] = useState(false); // Controls the visibility of the "Show Code" button
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // Path to the beep sound file
+  const beepSound = "/sounds/beep.mp3";
+
+  // Function to play the beep sound
+  const playBeep = () => {
+    const audio = new Audio(beepSound);
+    audio.play();
+  };
+
   // Flash the sequence
-  const flashSequence = async (seq: string[]) => {
+  const flashSequence = useCallback(async (seq: string[]) => {
     setIsFlashing(true); // Disable player input during flashing
 
     // Add a delay before starting the flashing sequence
@@ -32,13 +41,14 @@ const MemoryTest: React.FC = () => {
 
     for (let i = 0; i < seq.length; i++) {
       setFlashing(seq[i]); // Highlight the current color
+      playBeep(); // Play the beep sound
       await new Promise((resolve) => setTimeout(resolve, 500)); // Flash duration
       setFlashing(null); // Remove highlight
       await new Promise((resolve) => setTimeout(resolve, 300)); // Pause between flashes
     }
 
     setIsFlashing(false); // Enable player input after flashing
-  };
+  }, []);
 
   // Generate a new sequence
   const generateNewSequence = useCallback(
@@ -51,7 +61,7 @@ const MemoryTest: React.FC = () => {
         return newSequence; // Update the sequence state
       });
     },
-    []
+    [flashSequence] // Include flashSequence as a dependency
   );
 
   // Handles player's color button clicks
@@ -66,6 +76,8 @@ const MemoryTest: React.FC = () => {
       }, 300); // Ensure the animation completes
     }
 
+    playBeep(); // Play the beep sound
+
     setPlayerInput((prev) => [...prev, color]);
 
     setSequence((prevSequence) => {
@@ -73,7 +85,7 @@ const MemoryTest: React.FC = () => {
         setErrorMessage('Incorrect! Restart Game');
         setGameStarted(false);
       } else if (playerInput.length + 1 === prevSequence.length) {
-        if (level === 2) {
+        if (level === 6) {
           setShowModal(true);
           setGameWon(true);
           localStorage.setItem("hasBeatenGame", "true");
@@ -135,7 +147,7 @@ const MemoryTest: React.FC = () => {
   }, [generateNewSequence, gameStarted, level]);
 
   return (
-    <div>
+    <div className = 'memory-test-page'>
       <div className="back-to-home">
         <Link href="/" className="back-button">
           Back to Home

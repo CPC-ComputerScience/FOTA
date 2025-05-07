@@ -1,4 +1,4 @@
-body {
+.memory-test-page {
     background: linear-gradient(135deg, #ff4d4d, #ffcc00, #4caf50, #2196f3);
     background-size: 600% 600%;
     animation: gradient-shift 12s ease infinite;
@@ -6,7 +6,7 @@ body {
     font-family: Arial, sans-serif;
     height: 100vh; /* Ensure the body takes up the full viewport height */
     overflow: hidden; /* Prevent scrolling */
-}
+  }
 
 html {
     height: 100%; /* Ensure the html element takes up the full height */
