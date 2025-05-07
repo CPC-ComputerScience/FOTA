@@ -23,7 +23,7 @@ const MemoryTest: React.FC = () => {
   const [showCodeButton, setShowCodeButton] = useState(false); // Controls the visibility of the "Show Code" button
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Path to the single beep sound file
+  // Path to the beep sound file
   const beepSound = "/sounds/beep.mp3";
 
   // Function to play the beep sound
