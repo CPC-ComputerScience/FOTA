@@ -1,13 +1,29 @@
 "use client";
 
+import TubeEffects from "./components/TubeEffects/TubeEffects";
 import Link from "next/link";
-import Sidebar from "../components/Sidebar";
 import "./home.scss";
-import { useState, useRef, useEffect } from "react";
+import { useRef } from 'react';
 
 export default function Home() {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePlayGames = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // TODO: handle the captured image file
+      console.log(file);
+    }
+  };
+
   return (
     <div className="home-page">
+      <TubeEffects />
+
       <div id="tube-border" className="tube-border tube-border-mobile"></div>
 
       <div className="tube-shape">
@@ -21,9 +37,17 @@ export default function Home() {
           <Link className="link" href="/map">
             View Map
           </Link>
-          <Link className="link" href="/games">
+          <button type="button" className="link" onClick={handlePlayGames}>
             Play Games
-          </Link>
+          </button>
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
         </div>
       </div>
     </div>
