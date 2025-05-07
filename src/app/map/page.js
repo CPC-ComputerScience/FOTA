@@ -2,10 +2,11 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
-const floor1ImagePath = "/map/floor1.jpg"; // 一楼地图路径
-const floor2ImagePath = "/map/floor2.jpg"; // 二楼地图路径
-const scheduleImagePath = "/map/schedule.jpg"; // 完整时间表图片路径
+const floor1ImagePath = "/map/floor1.png"; // 一楼地图路径
+const floor2ImagePath = "/map/floor2.png"; // 二楼地图路径
+const scheduleImagePath = "/map/schedule.png"; // 完整时间表图片路径
 
 const scheduleData = [
     // 音乐类活动
@@ -150,26 +151,34 @@ export default function MapPage() {
   return (
     <div className="min-h-screen p-4 bg-gray-100">
       {/* 标题和楼层切换 - 始终显示 */}
-      <div className="mb-4 sticky top-0 bg-gray-100 z-10 pt-2 pb-4">
-        <h1 className="text-2xl md:text-3xl font-bold text-black mb-2">FOTA Live Map</h1>
-        <div className="flex space-x-2">
-          <button 
-            onClick={() => setCurrentFloor(1)}
-            className={`px-4 py-2 rounded-lg text-sm md:text-base ${
-              currentFloor === 1 ? 'bg-blue-600 text-white' : 'bg-white text-black border border-gray-300'
-            }`}
-          >
-            1F
-          </button>
-          <button 
-            onClick={() => setCurrentFloor(2)}
-            className={`px-4 py-2 rounded-lg text-sm md:text-base ${
-              currentFloor === 2 ? 'bg-blue-600 text-white' : 'bg-white text-black border border-gray-300'
-            }`}
-          >
-            2F
-          </button>
+      <div className="mb-4 sticky top-0 bg-gray-100 z-10 pt-2 pb-4 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-black mb-2">FOTA Live Map</h1>
+          <div className="flex space-x-2">
+            <button 
+              onClick={() => setCurrentFloor(1)}
+              className={`px-4 py-2 rounded-lg text-sm md:text-base ${
+                currentFloor === 1 ? 'bg-blue-600 text-white' : 'bg-white text-black border border-gray-300'
+              }`}
+            >
+              1F
+            </button>
+            <button 
+              onClick={() => setCurrentFloor(2)}
+              className={`px-4 py-2 rounded-lg text-sm md:text-base ${
+                currentFloor === 2 ? 'bg-blue-600 text-white' : 'bg-white text-black border border-gray-300'
+              }`}
+            >
+              2F
+            </button>
+          </div>
         </div>
+        {/* 返回主页按钮 */}
+        <Link href="/" passHref>
+          <button className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm md:text-base hover:bg-green-700 transition-colors">
+            Back
+          </button>
+        </Link>
       </div>
 
       {/* 主要内容区域 */}

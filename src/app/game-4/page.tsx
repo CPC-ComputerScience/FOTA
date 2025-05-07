@@ -17,7 +17,6 @@ const Page = () => {
   const [codeVisible, setCodeVisible] = useState(false); // New state for showing code
   const [flashClass, setFlashClass] = useState('');
 
-
   const submitGuess = () => {
     if (gameOver) return;
 
@@ -56,7 +55,7 @@ const Page = () => {
       <p className={`message ${flashClass}`}>{message}</p>
       {codeVisible && (
         <div className="secret-code">
-          <p>Your code is: <strong>1192</strong></p>
+          <p>Your code is: <strong>1592</strong></p>
         </div>
       )}
       {!gameOver && (
