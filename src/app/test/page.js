@@ -1,6 +1,6 @@
 // src/app/test/page.js
 'use client';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 
 // 复制您原有的活动数据
 const scheduleData = [

@@ -1,0 +1,64 @@
+.battle-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .battle-box {
+    width: 600px;
+    background: rgba(30, 30, 30, 0.85);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    font-family: sans-serif;
+  }
+  
+  .character {
+    text-align: center;
+  }
+  
+  .character img {
+    width: 120px;
+    transition: opacity 0.3s ease;
+  }
+  
+  .hp-bar-bg {
+    background: #333;
+    border-radius: 4px;
+    height: 10px;
+    width: 100%;
+    margin-top: 4px;
+  }
+  
+  .hp-bar {
+    height: 10px;
+    background: limegreen;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+  
+  .battle-log {
+    background: rgba(255, 255, 255, 0.1);
+    margin-top: 16px;
+    padding: 10px;
+    border-radius: 6px;
+    max-height: 100px;
+    overflow-y: auto;
+    font-size: 14px;
+  }
+  
+  button.attack-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-weight: bold;
+    background: gold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button.attack-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
