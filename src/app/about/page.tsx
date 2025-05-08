@@ -19,7 +19,8 @@ export default function About() {
         </Link>
         <div className="about-content">
           <p>
-            Crestwood&apos;s artists shine during The Festival Of The Arts.
+The Festival of the Arts is an annual celebration held at Crestwood that highlights the creativity, talent, and hard work of our students. This much-anticipated event offers a wonderful opportunity for families, friends, and peers to come together and experience the diverse range of artistic projects students have developed throughout the year. From visual art and music to drama and digital media, the festival showcases the many ways students express themselves and grow as creators. Notably, technology is playing an increasingly prominent role in the arts at Crestwood, reflecting its deep integration into the school’s vibrant and evolving creative culture.
+
           </p>
         </div>
       </div>
