@@ -38,7 +38,7 @@ export default function Home() {
             View Map
           </Link>
           <Link className="link" href="/games-intro">
-            Play Games
+            Scavenger Hunt
           </Link>
 
         </div>
