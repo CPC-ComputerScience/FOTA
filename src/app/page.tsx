@@ -37,17 +37,10 @@ export default function Home() {
           <Link className="link" href="/map">
             View Map
           </Link>
-          <button type="button" className="link" onClick={handlePlayGames}>
+          <Link className="link" href="/games-intro">
             Play Games
-          </button>
-          <input
-            type="file"
-            accept="image/*"
-            capture="environment"
-            ref={fileInputRef}
-            style={{ display: 'none' }}
-            onChange={handleFileChange}
-          />
+          </Link>
+
         </div>
       </div>
     </div>

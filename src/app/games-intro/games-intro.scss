@@ -1,0 +1,127 @@
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/PressStart2P-Regular.ttf") format("truetype");
+}
+
+:root {
+  color-scheme: light;
+}
+
+html, body {
+  background-color: white !important;
+}
+.back-button {
+  padding: 1%;
+  position: absolute;
+  background-color: rgba(169, 169, 169, 2);
+  top: 20%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+  font-family: "Open Sans";
+  display: flex;
+  gap: 20px;
+  font-size: large;
+  cursor: pointer;
+}
+
+.about-page {
+  background-color: white !important;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+
+.about-content {
+  padding: 3%;
+  position: absolute;
+  background-color: rgba(169, 169, 169, 2);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Open Sans";
+  display: flex;
+  gap: 20px;
+  font-size: small;
+  width: 80%;
+}
+
+.tube-border {
+  width: 100%;
+  height: 100%;
+  background-image: url("/homepage-images/border-streched.png");
+  background-size: 100% 100%;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 480px) and (orientation: portrait),
+  screen and (max-height: 480px) and (orientation: landscape) {
+  .tube-border {
+    display: none;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) and (orientation: portrait),
+  screen and (max-height: 480px) and (orientation: landscape) {
+  .tube-border-mobile {
+    display: inherit;
+    background-image: url("/homepage-images/border-compressed.png");
+  }
+}
+
+.tube-shape {
+  background: white;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.tube-shape::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(18, 16, 16, 0.1);
+  opacity: 0;
+  z-index: 7;
+  pointer-events: none;
+  animation: flicker 0.15s infinite;
+}
+
+.tube-shape::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.06),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
+  z-index: 7;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+html body .home-page {
+  background-color: white !important;
+}
+html body .tube-shape {
+  background: white !important;
+}
