@@ -29,7 +29,7 @@ export default function GamesIntro() {
             </p>
             <p>
               As you explore the Festival of the Arts, keep your eyes open for{" "}
-              <strong>three hidden QR codes</strong> scattered throughout the
+              <strong>four hidden QR codes</strong> scattered throughout the
               building. Each code, when scanned, will transport you to a
               custom-built online game. Complete each game to earn a unique{" "}
               <strong>four-digit code</strong>.
@@ -42,7 +42,7 @@ export default function GamesIntro() {
               your <strong>prize</strong>!
             </p>
             <p>
-              Are you ready to solve, explore, and escape? Let the hunt begin!
+              Are you ready to solve, explore, and play? Let the hunt begin!
             </p>
           </div>
         </div>
