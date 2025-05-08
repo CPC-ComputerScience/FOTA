@@ -23,8 +23,8 @@ export default function GamesIntro() {
             <h1>Welcome to the CPC Escape Scavenger Hunt!</h1>
             <p>
               Get ready for an interactive adventure across Crestwood, designed
-              by our talented computer science students. To begin your journey,
-              head over to <strong>Room 227</strong> and pick up your official{" "}
+              by our talented computer science students, the computer engineering class and the CPC Robotics teams. 
+              To begin your journey, head over to <strong>Room 227</strong> and pick up your official{" "}
               <strong>Scavenger Hunt Passport</strong>.
             </p>
             <p>
