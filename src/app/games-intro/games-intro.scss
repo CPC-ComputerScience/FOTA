@@ -125,3 +125,23 @@ html body .home-page {
 html body .tube-shape {
   background: white !important;
 }
+
+.scavenger-container {
+  max-width: 800px;
+  font-size: 80%;
+  margin: auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
+
+  h1 {
+    color: #2c3e50;
+    text-align: center;
+  }
+
+  strong {
+    color: #2980b9;
+  }
+}
+
