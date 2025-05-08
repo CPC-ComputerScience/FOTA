@@ -11,50 +11,50 @@ const scheduleImagePath = "/map/schedule.png"; // 完整时间表图片路径
 const scheduleData = [
     // 音乐类活动
     {
-      time: "6:45-7:00",
+      time: "18:45-19:00",
       locations: {
         "Lobby": "Crestwood Voices (warm-up)"
       }
     },
     {
-      time: "7:15-7:30",
+      time: "19:15-19:30",
       locations: {
         "Gym 1 (office side)": "Jazz Band",
         "Courtyard": "DRAMA: Scenes & Games"
       }
     },
     {
-      time: "7:30-7:45",
+      time: "19:30-19:45",
       locations: {
         "Gym 2 (scoreboard side)": "Gr.8 Band"
       }
     },
     {
-      time: "7:45-8:00",
+      time: "19:45-20:00",
       locations: {
         "Gym 1 (office side)": "Strings Club"
       }
     },
     {
-      time: "8:00-8:15",
+      time: "20:00-20:15",
       locations: {
         "Gym 2 (scoreboard side)": "Gr.9 Band"
       }
     },
     {
-      time: "8:15-8:30",
+      time: "20:15-20:30",
       locations: {
         "Gym 1 (office side)": "Sr. Band"
       }
     },
     {
-      time: "8:30-8:45",
+      time: "20:30-20:45",
       locations: {
         "Gym 2 (scoreboard side)": "Sr and Gr.9 Band"
       }
     },
     {
-      time: "8:45-9:00",
+      time: "20:45-21:00",
       locations: {
         "Gym 2 (scoreboard side)": "Rock Band"
       }
@@ -62,7 +62,7 @@ const scheduleData = [
   
     // 长期活动（7:15-8:45）
     {
-      time: "7:15-8:45",
+      time: "19:15-20:45",
       locations: {
         "LC": "TGJ Displays & Grade 9 Science Periodic Table Element Cubes",
         "Guidance Hallway outside LC": "Intro to Robotics Escape Room + TEJ3M Arduino Installation",
@@ -80,7 +80,7 @@ const scheduleData = [
   
     // 其他时间段活动
     {
-      time: "7:45-8:15",
+      time: "19:45-20:15",
       locations: {
         "Courtyard": "AP Artwork and Painting demo"
       }
@@ -88,10 +88,7 @@ const scheduleData = [
   ];
 
 const locationCoordinates = {
-  "Gym 1 (office side)": { x: 120, y: 45 },
-  "LC": { x: 300, y: 80 },
-  "227.0": { x: 200, y: 150 },
-  // 其他地点坐标...
+  
 };
 
 export default function MapPage() {
