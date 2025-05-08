@@ -25,10 +25,9 @@ html, body {
   cursor: pointer;
 }
 
-.about-page {
-  background-color: white !important;
-  min-height: 100vh;
-  width: 100vw;
+.about-content {
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 
@@ -128,7 +127,7 @@ html body .tube-shape {
 
 .scavenger-container {
   max-width: 800px;
-  font-size: 80%;
+  font-size: 60%;
   margin: auto;
   padding: 30px;
   border-radius: 10px;
