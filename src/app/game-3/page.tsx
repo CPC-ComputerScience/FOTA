@@ -20,17 +20,9 @@ const MemoryTest: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [hasBeatenGame, setHasBeatenGame] = useState(false);
-  const [showCodeButton, setShowCodeButton] = useState(false); // Controls the visibility of the "Show Code" button
+  const [showCodeButton, setShowCodeButton] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Path to the beep sound file
-  const beepSound = "/sounds/beep.mp3";
-
-  // Function to play the beep sound
-  const playBeep = () => {
-    const audio = new Audio(beepSound);
-    audio.play();
-  };
 
   // Flash the sequence
   const flashSequence = useCallback(async (seq: string[]) => {
@@ -41,7 +33,6 @@ const MemoryTest: React.FC = () => {
 
     for (let i = 0; i < seq.length; i++) {
       setFlashing(seq[i]); // Highlight the current color
-      playBeep(); // Play the beep sound
       await new Promise((resolve) => setTimeout(resolve, 500)); // Flash duration
       setFlashing(null); // Remove highlight
       await new Promise((resolve) => setTimeout(resolve, 300)); // Pause between flashes
@@ -70,19 +61,18 @@ const MemoryTest: React.FC = () => {
 
     const button = document.querySelector(`.color-button.${color}`);
     if (button) {
-      button.classList.add('clicked');
+      button.classList.add("clicked");
       setTimeout(() => {
-        button.classList.remove('clicked');
+        button.classList.remove("clicked");
       }, 300); // Ensure the animation completes
     }
 
-    playBeep(); // Play the beep sound
 
     setPlayerInput((prev) => [...prev, color]);
 
     setSequence((prevSequence) => {
       if (prevSequence[playerInput.length] !== color) {
-        setErrorMessage('Incorrect! Restart Game');
+        setErrorMessage("Incorrect! Restart Game");
         setGameStarted(false);
       } else if (playerInput.length + 1 === prevSequence.length) {
         if (level === 6) {
@@ -91,9 +81,12 @@ const MemoryTest: React.FC = () => {
           localStorage.setItem("hasBeatenGame", "true");
           setHasBeatenGame(true); // Disable buttons after beating the game
           setShowCodeButton(true); // Show the "Show Code" button
-          localStorage.setItem("showCodeButton", "true"); 
+          localStorage.setItem("showCodeButton", "true");
         } else {
-          setLevel((prev) => prev + 0.5);
+          setLevel((prev) => {
+            console.log("Incrementing level:", prev + 1);
+            return prev + 1;
+          });
         }
       }
       return prevSequence; // Return the sequence unchanged
@@ -147,7 +140,7 @@ const MemoryTest: React.FC = () => {
   }, [generateNewSequence, gameStarted, level]);
 
   return (
-    <div className = 'memory-test-page'>
+    <div className="memory-test-page">
       <div className="back-to-home">
         <Link href="/" className="back-button">
           Back to Home
@@ -163,7 +156,7 @@ const MemoryTest: React.FC = () => {
               <button
                 key={color}
                 onClick={() => handleColorClick(color)}
-                className={`color-button ${color} ${flashing === color ? 'flash' : ''}`}
+                className={`color-button ${color} ${flashing === color ? "flash" : ""}`}
                 disabled={isFlashing || hasBeatenGame} // Disable buttons if flashing or game is beaten
               />
             ))}
@@ -190,10 +183,7 @@ const MemoryTest: React.FC = () => {
         </div>
       )}
       {showCodeButton && (
-        <button
-          className="show-code-button"
-          onClick={() => setShowModal(true)}
-        >
+        <button className="show-code-button" onClick={() => setShowModal(true)}>
           Show Code
         </button>
       )}

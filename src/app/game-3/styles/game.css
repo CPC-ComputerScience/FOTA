@@ -40,14 +40,13 @@ html {
     margin-bottom: 20px;
 }
 
-/* Flexbox for the button grid */
 .button-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px; 
+    justify-content: center; 
     margin: 20px 0;
-    width: 450px
+    width: auto; 
 }
 
 .color-button {
@@ -150,15 +149,15 @@ html {
 /* Responsive design for smaller screens */
 @media (max-width: 600px) {
     .button-grid {
-        width: 100%;
-        gap: 10px;
-  }
+        grid-template-columns: repeat(2, 1fr); /* Still 2 columns on smaller screens */
+        gap: 10px; /* Reduce gap for smaller screens */
+    }
 
     .color-button {
         width: 150px; 
         height: 100px;
         font-size: 16px;
-  }
+    }
 
     .game-container {
         padding: 10px;
